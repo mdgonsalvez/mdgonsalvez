@@ -61,6 +61,12 @@ enum PQTheme {
     /// bright gold fails WCAG contrast.
     static let goldDeep = Color(hex: "#B8860B")
     static let positive = Color(red: 0.16, green: 0.52, blue: 0.32)
+    /// Bright "sky" accent echoing the app icon. Use as a FILL, dot, or
+    /// decorative tint only — too light for text/thin icons on paper.
+    static let sky = Color(hex: "#3FA9E0")
+    /// Very soft sky tint for backgrounds (e.g. behind onboarding art) so the
+    /// icon's bright sky carries into the first in-app screen.
+    static let skySoft = Color(hex: "#E3F1FB")
 
     /// Minimum accessible tap target (spec: 48×48 pt).
     static let minTap: CGFloat = 48

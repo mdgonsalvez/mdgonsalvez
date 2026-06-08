@@ -42,6 +42,7 @@ struct OnboardingView: View {
                 }
                 .tabViewStyle(.page(indexDisplayMode: .always))
                 .indexViewStyle(.page(backgroundDisplayMode: .always))
+                .tint(PQTheme.sky)   // sky-blue active dot, echoing the app icon
 
                 bottomButton
                     .padding(.horizontal, 24)
@@ -97,10 +98,19 @@ struct OnboardingView: View {
 
     // MARK: Pages
 
+    /// A soft sky-blue circle behind a page's art — carries the icon's bright
+    /// sky into the app so the icon→first-screen transition feels connected.
+    private func artBubble<Content: View>(@ViewBuilder _ content: () -> Content) -> some View {
+        content()
+            .frame(width: 172, height: 172)
+            .background(Circle().fill(PQTheme.skySoft))
+            .overlay(Circle().stroke(PQTheme.sky.opacity(0.35), lineWidth: 2))
+    }
+
     private func pageCard(_ tag: Int, emoji: String, title: String, body: String) -> some View {
         VStack(spacing: 20) {
             Spacer(minLength: 0)
-            Text(emoji).font(.system(size: 96))
+            artBubble { Text(emoji).font(.system(size: 88)) }
             Text(title)
                 .font(.system(size: 30, weight: .heavy, design: .rounded))
                 .foregroundColor(PQTheme.ink)
@@ -122,9 +132,11 @@ struct OnboardingView: View {
     private var coinsCard: some View {
         VStack(spacing: 20) {
             Spacer(minLength: 0)
-            Image(systemName: "ticket.fill")
-                .font(.system(size: 84))
-                .foregroundColor(PQTheme.goldDeep)
+            artBubble {
+                Image(systemName: "ticket.fill")
+                    .font(.system(size: 72))
+                    .foregroundColor(PQTheme.goldDeep)
+            }
             Text("Hint Coins")
                 .font(.system(size: 30, weight: .heavy, design: .rounded))
                 .foregroundColor(PQTheme.ink)
@@ -145,7 +157,7 @@ struct OnboardingView: View {
     private var stampsCard: some View {
         VStack(spacing: 18) {
             Spacer(minLength: 0)
-            Text("⭐").font(.system(size: 76))
+            artBubble { Text("⭐").font(.system(size: 70)) }
             Text("Earn shiny stamps")
                 .font(.system(size: 30, weight: .heavy, design: .rounded))
                 .foregroundColor(PQTheme.ink)
