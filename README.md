@@ -51,29 +51,46 @@ PassportQuest/
 │   └── UIHelpers.swift           # Hex colour, Reduce-Motion helpers, theme
 ├── Settings/
 │   └── SettingsView.swift        # Difficulty change, ink, input, reset
-├── Assets.xcassets/             # AppIcon, AccentColor + production placeholders
+├── Assets.xcassets/             # AppIcon (globe mascot), Mascot, AccentColor
 └── Resources/
     ├── en.lproj/Localizable.strings
     └── PrivacyInfo.xcprivacy     # "No data collected" privacy manifest
+PassportQuest.swiftpm/           # Swift Playgrounds App (the iPad release target)
+├── Package.swift                # .iOSApplication manifest: icon, bundle id, resources
+├── Assets.xcassets/             # Package-local AppIcon + Mascot (Playgrounds build)
+├── PrivacyInfo.xcprivacy        # Same privacy manifest, bundled in the package
+└── … mirrors the same Swift sources as PassportQuest/
 tools/
 └── generate_pbxproj.py           # Regenerates the .xcodeproj from the file tree
 ```
 
 ---
 
-## Build instructions
+## Build & run
 
-1. **Open the project** in **Xcode 15 or later**: open `PassportQuest.xcodeproj`.
-2. **Minimum deployment target:** iOS **16.0** (already set on the target).
-3. **Devices:** iPad is the primary form factor; iPhone is supported
-   (`TARGETED_DEVICE_FAMILY = 1,2`). Pick an iPad simulator (e.g. *iPad (10th
-   gen)*) for the intended experience.
-4. **Signing:** select your team under *Signing & Capabilities*. The bundle id
-   defaults to `com.example.passportquest` — change it to your own.
-5. **Capabilities:** **none required** beyond defaults. There is no networking,
-   no Game Center, no push, no IAP.
-6. **Run** (`⌘R`). On first launch you'll see the non-skippable difficulty
-   selection screen, then the four-tab game.
+This project builds two ways from the **same Swift sources**. The primary,
+supported path is **iPad-only via Swift Playgrounds** — see `RELEASE.md` for the
+full App Store flow.
+
+### Primary: iPad + Swift Playgrounds (no Mac)
+1. Open **`PassportQuest.swiftpm`** in **Swift Playgrounds 4.1+** on an iPad
+   (it appears as an *App* project). Get it onto the iPad with a git client like
+   Working Copy, or via Files. See `RELEASE.md §1`.
+2. Press **▶ Run**. First launch shows the non-skippable difficulty screen, then
+   the four-tab game.
+3. **App Settings** (name, mascot icon, bundle id `com.mdgonsalvez.passportquest`,
+   version) are configured in `PassportQuest.swiftpm/Package.swift`; the icon,
+   `Mascot` image and `PrivacyInfo.xcprivacy` ship in the package's
+   `Assets.xcassets` / resources.
+
+### Alternative: Mac + Xcode
+1. Open **`PassportQuest.xcodeproj`** in **Xcode 15+** (iOS **16.0** target).
+2. iPad is the primary form factor; iPhone is supported
+   (`TARGETED_DEVICE_FAMILY = 1,2`). Pick an iPad simulator.
+3. **Signing:** select your team under *Signing & Capabilities*. Bundle id is
+   `com.mdgonsalvez.passportquest` (set by `BUNDLE_ID` in the generator).
+4. **Capabilities:** none beyond defaults — no networking, Game Center, push or IAP.
+5. **Run** (`⌘R`).
 
 > **Regenerating the project file.** The `.xcodeproj` is produced from the
 > source tree by `tools/generate_pbxproj.py`. If you add or rename Swift files
@@ -81,7 +98,12 @@ tools/
 > rebuild `project.pbxproj`. (When working inside Xcode normally, you don't need
 > the script — just add files through the IDE.)
 
-### Build settings of note
+> **Keeping the two in sync.** The `.swiftpm` mirrors the same Swift files as the
+> Xcode target. Assets are maintained on both sides: the Xcode app reads
+> `PassportQuest/Assets.xcassets`; the Playgrounds app reads
+> `PassportQuest.swiftpm/Assets.xcassets`.
+
+### Build settings of note (Xcode target)
 - `GENERATE_INFOPLIST_FILE = YES` — no hand-maintained Info.plist; orientation,
   launch screen and display name are set via `INFOPLIST_KEY_*`.
 - `SWIFT_VERSION = 5.0`, `SWIFT_EMIT_LOC_STRINGS = YES`.
@@ -169,8 +191,10 @@ These are intentional v1 simplifications, all with a clear upgrade path.
   `SilhouettePaths.swift`; the rest fall back to a continent blob with a "?".
   Extend coverage by adding normalised 0–1 polygons (or prefer
   `Silhouettes/<ISO2>` image assets) for more countries.
-- **App icon:** `AppIcon.appiconset` has a single 1024×1024 slot — add a final
-  child-friendly icon before submission.
+- **App icon:** ✅ done — the globe-mascot icon ships in both
+  `PassportQuest/Assets.xcassets/AppIcon` (Xcode) and
+  `PassportQuest.swiftpm/Assets.xcassets/AppIcon` (Playgrounds). The same mascot
+  is reused on the onboarding welcome screen (`Mascot` image set).
 
 ### Data
 - Facts, capitals, currencies and national animals are accurate to the best of

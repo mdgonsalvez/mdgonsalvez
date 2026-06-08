@@ -22,7 +22,7 @@ let package = Package(
         .iOSApplication(
             name: "PassportQuest",
             targets: ["AppModule"],
-            bundleIdentifier: "com.example.passportquest",
+            bundleIdentifier: "com.mdgonsalvez.passportquest",
             teamIdentifier: "",
             displayVersion: "1.0",
             bundleVersion: "1",
