@@ -1,0 +1,92 @@
+/*
+  Localizable.strings (English, v1)
+  PassportQuest
+
+  All user-facing copy is keyed here so future localisation is a drop-in
+  (spec rule #5). SwiftUI `Text("…")` automatically resolves these literal
+  English keys through this table; to add a language, copy this file into a new
+  `<lang>.lproj` and translate the values.
+*/
+
+// MARK: General
+"Passport Quest" = "Passport Quest";
+"Play" = "Play";
+"Daily" = "Daily";
+"Passport" = "Passport";
+"Settings" = "Settings";
+"Close" = "Close";
+"Done" = "Done";
+"Continue" = "Continue";
+"Cancel" = "Cancel";
+
+// MARK: Difficulty selection
+"Choose how you'd like to explore the world!" = "Choose how you'd like to explore the world!";
+"Pick a new way to explore!" = "Pick a new way to explore!";
+"You can change this any time in Settings. Switching never removes stamps you've already earned." = "You can change this any time in Settings. Switching never removes stamps you've already earned.";
+"Current" = "Current";
+
+// MARK: Difficulty personas
+"Explorer" = "Explorer";
+"Navigator" = "Navigator";
+"Cartographer" = "Cartographer";
+"Flags, photos and lots of hints. Perfect for starting your adventure!" = "Flags, photos and lots of hints. Perfect for starting your adventure!";
+"Silhouettes, flags and a few clues. For curious world travellers." = "Silhouettes, flags and a few clues. For curious world travellers.";
+"Shape only. No flags, no hints. Only the bravest explorers attempt this!" = "Shape only. No flags, no hints. Only the bravest explorers attempt this!";
+
+// MARK: Gameplay
+"Guess" = "Guess";
+"Type the country name…" = "Type the country name…";
+"Stamped! You're a world traveller!" = "Stamped! You're a world traveller!";
+"Not quite — here's another clue!" = "Not quite — here's another clue!";
+"Not quite — try another clue or guess!" = "Not quite — try another clue or guess!";
+"Visited — we'll come back to this one!" = "Visited — we'll come back to this one!";
+"The mystery country was" = "The mystery country was";
+"Next Country" = "Next Country";
+"Keep Exploring" = "Keep Exploring";
+"Section complete!" = "Section complete!";
+"Continue the Journey" = "Continue the Journey";
+"World Traveller!" = "World Traveller!";
+
+// MARK: Clue titles
+"Mystery Shape" = "Mystery Shape";
+"Flag" = "Flag";
+"Fun Fact" = "Fun Fact";
+"Famous Place" = "Famous Place";
+
+// MARK: Daily
+"📅 Daily Challenge" = "📅 Daily Challenge";
+"A special mystery country, every single day!" = "A special mystery country, every single day!";
+"Daily stamp earned!" = "Daily stamp earned!";
+"Today's daily is done!" = "Today's daily is done!";
+"Come back tomorrow for a brand-new country!" = "Come back tomorrow for a brand-new country!";
+
+// MARK: Minigames
+"✨ Traveller's Trivia" = "✨ Traveller's Trivia";
+"Sprint complete!" = "Sprint complete!";
+"Start Sprint" = "Start Sprint";
+"Maybe later" = "Maybe later";
+"Answer" = "Answer";
+"Upgraded! Your stamp shines brighter." = "Upgraded! Your stamp shines brighter.";
+"Good try! Your stamp keeps its rating." = "Good try! Your stamp keeps its rating.";
+
+// MARK: Passport
+"My Passport" = "My Passport";
+"Map" = "Map";
+"Grid" = "Grid";
+"⚡️ Continent Sprints" = "⚡️ Continent Sprints";
+
+// MARK: Settings
+"Difficulty" = "Difficulty";
+"Answering" = "Answering";
+"Passport Ink Colour" = "Passport Ink Colour";
+"Accessibility" = "Accessibility";
+"Reduce animations" = "Reduce animations";
+"Progress" = "Progress";
+"About" = "About";
+"Change difficulty?" = "Change difficulty?";
+"Change" = "Change";
+"This only changes how future rounds work. Every stamp you've already earned and all your hint tokens stay exactly as they are." = "This only changes how future rounds work. Every stamp you've already earned and all your hint tokens stay exactly as they are.";
+"Reset all progress?" = "Reset all progress?";
+"Reset Everything" = "Reset Everything";
+"Reset all progress" = "Reset all progress";
+"This permanently erases every stamp, badge and hint token, and starts your passport over. This can't be undone." = "This permanently erases every stamp, badge and hint token, and starts your passport over. This can't be undone.";
