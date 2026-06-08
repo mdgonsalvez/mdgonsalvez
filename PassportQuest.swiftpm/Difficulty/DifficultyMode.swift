@@ -66,31 +66,17 @@ enum DifficultyMode: String, Codable, CaseIterable, Identifiable {
 
     // MARK: Clue rules
 
-    /// The clue tier a fresh round opens on.
-    var startingClueTier: ClueTier {
-        switch self {
-        case .easy:   return .fact          // tier 3
-        case .medium: return .flag          // tier 2
-        case .hard:   return .silhouette    // tier 1
-        }
-    }
+    /// Every round opens on the Mystery Shape (silhouette); the player can then
+    /// reveal the other clues by tapping them.
+    var startingClueTier: ClueTier { .silhouette }
 
-    /// Which clue tiers are available to be revealed in this mode.
-    var availableClues: [ClueTier] {
-        switch self {
-        case .easy:   return [.silhouette, .flag, .fact, .photo]
-        case .medium: return [.silhouette, .flag, .fact]        // no landmark photo
-        case .hard:   return [.silhouette]                      // shape only
-        }
-    }
+    /// All four clue tiers are available to reveal in every mode. Difficulty is
+    /// expressed through the hint-token cost of revealing them, not by hiding
+    /// them, so every question starts on the shape and the rest can be clicked.
+    var availableClues: [ClueTier] { [.silhouette, .flag, .fact, .photo] }
 
-    /// Whether the player may voluntarily reveal further clues at all.
-    var allowsManualReveal: Bool {
-        switch self {
-        case .easy, .medium: return true
-        case .hard:          return false
-        }
-    }
+    /// The player may always reveal further clues (the token cost varies by mode).
+    var allowsManualReveal: Bool { true }
 
     // MARK: Answer input rules
 

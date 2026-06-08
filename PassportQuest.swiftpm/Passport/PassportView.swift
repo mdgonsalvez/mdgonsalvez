@@ -2,9 +2,11 @@
 //  PassportView.swift
 //  PassportQuest
 //
-//  The passport "book": a header of section progress rings, a World Map / Grid
-//  view switcher, and entry points to the Continent Sprint for mastered
-//  sections. Tapping a stamped country opens its StampCardView detail sheet.
+//  The passport "book": a swipeable, paged view with one page per continent
+//  (in journey order). Each page is styled like a passport page — a header band
+//  showing the continent's emblem and name, a progress count and mastery badge,
+//  then a grid of country stamps. Swipe left/right (or tap the dots) to flip to
+//  the next continent. Tapping a stamped country opens its stamp card.
 //
 
 import SwiftUI
@@ -14,19 +16,19 @@ struct PassportView: View {
     @EnvironmentObject private var store: PlayerProgressStore
     var onOpenSettings: () -> Void = {}
 
-    @State private var mode: ViewMode = .map
+    @State private var pageIndex = 0
     @State private var selectedCountry: Country?
     @State private var sprintContinent: Continent?
 
-    private enum ViewMode: String, CaseIterable { case map = "Map", grid = "Grid" }
+    private var continents: [Continent] { Continent.journeyOrdered }
 
-    /// Unlocked sections, derived from sequential progress + difficulty.
+    /// Sections currently unlocked, from sequential progress + difficulty.
     private var unlockedSections: Set<Continent> {
         if settings.activeDifficulty.unlockStrategy == .globalRandom {
             return Set(Continent.allCases)
         }
         var unlocked: Set<Continent> = []
-        for section in Continent.journeyOrdered {
+        for section in continents {
             unlocked.insert(section)
             let allStamped = CountryDatabase.countries(in: section)
                 .allSatisfy { store.progress.isStamped($0.id) }
@@ -37,28 +39,24 @@ struct PassportView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            header
-            sectionRings
-            Picker("View", selection: $mode) {
-                ForEach(ViewMode.allCases, id: \.self) { Text($0.rawValue).tag($0) }
-            }
-            .pickerStyle(.segmented)
-            .padding(.horizontal)
-            .padding(.bottom, 8)
-
-            switch mode {
-            case .map:
-                ScrollView {
-                    WorldMapView(onSelectCountry: { selectedCountry = $0 })
-                        .padding(.horizontal)
-                    masteredSprintSection
+            topBar
+            TabView(selection: $pageIndex) {
+                ForEach(Array(continents.enumerated()), id: \.element) { index, continent in
+                    PassportPage(continent: continent,
+                                 unlocked: unlockedSections.contains(continent),
+                                 onSelectCountry: { selectedCountry = $0 },
+                                 onStartSprint: { sprintContinent = continent })
+                        .environmentObject(settings)
+                        .environmentObject(store)
+                        .tag(index)
+                        .padding(.horizontal, 12)
+                        .padding(.bottom, 12)
                 }
-            case .grid:
-                PassportGridView(unlockedSections: unlockedSections,
-                                 onSelectCountry: { selectedCountry = $0 })
             }
+            .tabViewStyle(.page(indexDisplayMode: .always))
+            .indexViewStyle(.page(backgroundDisplayMode: .always))
         }
-        .background(PQTheme.paper.ignoresSafeArea())
+        .background(passportCover.ignoresSafeArea())
         .sheet(item: $selectedCountry) { country in
             if let rating = store.progress.rating(for: country.id) {
                 StampCardView(country: country,
@@ -74,103 +72,226 @@ struct PassportView: View {
         }
     }
 
-    // MARK: Header
+    // MARK: Cover / top bar
 
-    private var header: some View {
-        HStack {
+    /// A deep passport-cover colour behind the pages.
+    private var passportCover: some View {
+        LinearGradient(colors: [Color(red: 0.18, green: 0.22, blue: 0.36),
+                                Color(red: 0.10, green: 0.13, blue: 0.24)],
+                       startPoint: .top, endPoint: .bottom)
+    }
+
+    private var topBar: some View {
+        HStack(alignment: .center) {
             VStack(alignment: .leading, spacing: 2) {
-                Text("My Passport").font(.largeTitle.weight(.heavy)).foregroundColor(PQTheme.ink)
+                Text("My Passport")
+                    .font(.title.weight(.heavy)).foregroundColor(.white)
                 Text("\(store.progress.stampedCount) of \(CountryDatabase.all.count) stamps")
-                    .font(.subheadline).foregroundColor(.secondary)
+                    .font(.subheadline).foregroundColor(.white.opacity(0.8))
             }
             Spacer()
             DifficultyBadgeView(onTap: onOpenSettings)
         }
         .padding(.horizontal)
         .padding(.top, 8)
+        .padding(.bottom, 10)
     }
+}
 
-    // MARK: Section progress rings
+// MARK: - PassportPage
 
-    private var sectionRings: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 16) {
-                ForEach(Continent.journeyOrdered) { continent in
-                    sectionRing(continent)
-                }
-            }
-            .padding(.horizontal)
-            .padding(.vertical, 12)
-        }
-    }
+private struct PassportPage: View {
+    @EnvironmentObject private var settings: GameSettings
+    @EnvironmentObject private var store: PlayerProgressStore
+    let continent: Continent
+    let unlocked: Bool
+    var onSelectCountry: (Country) -> Void
+    var onStartSprint: () -> Void
 
-    private func sectionRing(_ continent: Continent) -> some View {
-        let countries = CountryDatabase.countries(in: continent)
-        let stamped = countries.filter { store.progress.isStamped($0.id) }.count
-        let fraction = countries.isEmpty ? 0 : Double(stamped) / Double(countries.count)
-        let unlocked = unlockedSections.contains(continent)
-        let mastered = store.progress.masteryBadges.contains(continent)
+    private let columns = [GridItem(.adaptive(minimum: 96, maximum: 150), spacing: 12)]
 
-        return VStack(spacing: 6) {
-            ZStack {
-                Circle().stroke(PQTheme.ink.opacity(0.12), lineWidth: 6)
-                    .frame(width: 56, height: 56)
-                Circle().trim(from: 0, to: CGFloat(fraction))
-                    .stroke(settings.inkColour.color, style: StrokeStyle(lineWidth: 6, lineCap: .round))
-                    .rotationEffect(.degrees(-90))
-                    .frame(width: 56, height: 56)
+    private var countries: [Country] { CountryDatabase.countries(in: continent) }
+    private var stampedCount: Int { countries.filter { store.progress.isStamped($0.id) }.count }
+    private var mastered: Bool { store.progress.masteryBadges.contains(continent) }
+    private var fullyStamped: Bool { !countries.isEmpty && stampedCount == countries.count }
+
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 16) {
+                header
                 if unlocked {
-                    Image(systemName: mastered ? "rosette" : continent.symbolName)
-                        .foregroundColor(mastered ? PQTheme.gold : PQTheme.ink)
+                    LazyVGrid(columns: columns, spacing: 12) {
+                        ForEach(countries) { country in
+                            card(for: country)
+                        }
+                    }
+                    if fullyStamped {
+                        sprintButton
+                    }
                 } else {
-                    Image(systemName: "lock.fill").foregroundColor(.secondary)
+                    lockedNotice
                 }
             }
-            Text(continent.displayName)
-                .font(.caption2.weight(.semibold))
-                .foregroundColor(.secondary)
-                .lineLimit(1)
-                .frame(width: 70)
+            .padding(18)
         }
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel("\(continent.displayName): \(stamped) of \(countries.count) stamped\(mastered ? ", mastered" : "")\(unlocked ? "" : ", locked")")
+        .background(pageBackground)
+        .clipShape(RoundedRectangle(cornerRadius: 22))
+        .overlay(RoundedRectangle(cornerRadius: 22).stroke(Color.white.opacity(0.25), lineWidth: 1))
     }
 
-    // MARK: Sprint section
+    // MARK: Page header (emblem + continent name, as requested)
 
-    private var masteredSprintSection: some View {
-        let eligible = Continent.journeyOrdered.filter { continent in
-            let countries = CountryDatabase.countries(in: continent)
-            return !countries.isEmpty && countries.allSatisfy { store.progress.isStamped($0.id) }
-        }
-        return Group {
-            if !eligible.isEmpty {
-                VStack(alignment: .leading, spacing: 12) {
-                    Text("⚡️ Continent Sprints")
-                        .font(.title3.weight(.bold)).foregroundColor(PQTheme.ink)
-                    Text("You've stamped these whole sections — try a bonus lightning round!")
-                        .font(.subheadline).foregroundColor(.secondary)
-                    ForEach(eligible) { continent in
-                        Button { sprintContinent = continent } label: {
-                            HStack {
-                                Image(systemName: continent.symbolName)
-                                Text("\(continent.displayName) Sprint")
-                                    .font(.headline)
-                                Spacer()
-                                if store.progress.masteryBadges.contains(continent) {
-                                    Image(systemName: "rosette").foregroundColor(PQTheme.gold)
-                                }
-                                Image(systemName: "chevron.right").foregroundColor(.secondary)
-                            }
-                            .foregroundColor(PQTheme.ink)
-                            .padding()
-                            .frame(maxWidth: .infinity, minHeight: PQTheme.minTap)
-                            .background(RoundedRectangle(cornerRadius: 14).fill(PQTheme.paperDeep))
-                        }
-                        .accessibilityLabel("Start \(continent.displayName) Sprint bonus round")
+    private var header: some View {
+        HStack(spacing: 14) {
+            Text(continent.emoji)
+                .font(.system(size: 50))
+                .frame(width: 64, height: 64)
+                .background(Circle().fill(PQTheme.paperDeep))
+                .overlay(Circle().stroke(PQTheme.ink.opacity(0.2), lineWidth: 1))
+            VStack(alignment: .leading, spacing: 4) {
+                Text(continent.displayName)
+                    .font(.title2.weight(.heavy))
+                    .foregroundColor(PQTheme.ink)
+                    .minimumScaleFactor(0.7).lineLimit(1)
+                HStack(spacing: 8) {
+                    Text("\(stampedCount) / \(countries.count) stamped")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundColor(.secondary)
+                    if mastered {
+                        Image(systemName: "rosette").foregroundColor(PQTheme.gold)
+                            .accessibilityLabel("Mastery badge earned")
                     }
                 }
-                .padding()
+            }
+            Spacer()
+            // Progress ring.
+            ZStack {
+                Circle().stroke(PQTheme.ink.opacity(0.12), lineWidth: 6).frame(width: 48, height: 48)
+                Circle().trim(from: 0, to: countries.isEmpty ? 0 : CGFloat(stampedCount) / CGFloat(countries.count))
+                    .stroke(settings.inkColour.color, style: StrokeStyle(lineWidth: 6, lineCap: .round))
+                    .rotationEffect(.degrees(-90))
+                    .frame(width: 48, height: 48)
+            }
+        }
+        .padding(.bottom, 4)
+        .overlay(alignment: .bottom) {
+            Rectangle().fill(PQTheme.ink.opacity(0.12)).frame(height: 1)
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(continent.displayName) page. \(stampedCount) of \(countries.count) stamped\(mastered ? ", mastered" : "")")
+    }
+
+    private var lockedNotice: some View {
+        VStack(spacing: 12) {
+            Image(systemName: "lock.fill").font(.largeTitle).foregroundColor(.secondary)
+            Text("Locked")
+                .font(.title3.weight(.bold)).foregroundColor(PQTheme.ink)
+            Text("Stamp the earlier sections of your journey to unlock \(continent.displayName)!")
+                .font(.subheadline)
+                .multilineTextAlignment(.center)
+                .foregroundColor(.secondary)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 40)
+    }
+
+    private var sprintButton: some View {
+        Button(action: onStartSprint) {
+            HStack {
+                Image(systemName: "bolt.fill")
+                Text("\(continent.displayName) Sprint")
+                Spacer()
+                if mastered { Image(systemName: "rosette").foregroundColor(PQTheme.gold) }
+                Image(systemName: "chevron.right").foregroundColor(.secondary)
+            }
+            .font(.headline)
+            .foregroundColor(PQTheme.ink)
+            .padding()
+            .frame(maxWidth: .infinity, minHeight: PQTheme.minTap)
+            .background(RoundedRectangle(cornerRadius: 14).fill(PQTheme.gold.opacity(0.25)))
+        }
+        .padding(.top, 8)
+        .accessibilityLabel("Start \(continent.displayName) Sprint bonus round")
+    }
+
+    // MARK: Country card
+
+    @ViewBuilder
+    private func card(for country: Country) -> some View {
+        let stamped = store.progress.isStamped(country.id)
+        let rating = store.progress.rating(for: country.id)
+        let hard = store.progress.wasEarnedOnHard(country.id)
+
+        Button {
+            if stamped { onSelectCountry(country) }
+        } label: {
+            VStack(spacing: 6) {
+                ZStack {
+                    if stamped {
+                        Text(country.emojiFlag).font(.system(size: 40))
+                    } else {
+                        SilhouetteView(country: country, fill: PQTheme.ink.opacity(0.35))
+                            .frame(height: 48)
+                    }
+                }
+                .frame(height: 48)
+
+                Text(stamped ? country.name : "? ? ?")
+                    .font(.caption.weight(.semibold))
+                    .foregroundColor(stamped ? PQTheme.ink : .secondary)
+                    .lineLimit(1).minimumScaleFactor(0.65)
+
+                if stamped, let rating {
+                    HStack(spacing: 2) {
+                        ForEach(0..<rating.starCount, id: \.self) { _ in
+                            Image(systemName: "star.fill").font(.system(size: 8))
+                                .foregroundColor(Color(hex: rating.tintHex))
+                        }
+                    }
+                } else {
+                    Spacer().frame(height: 10)
+                }
+            }
+            .padding(9)
+            .frame(maxWidth: .infinity, minHeight: 104)
+            .background(RoundedRectangle(cornerRadius: 12).fill(stamped ? PQTheme.paperDeep : PQTheme.paper.opacity(0.6)))
+            .overlay(cardBorder(stamped: stamped, hard: hard))
+        }
+        .accessibilityLabel(stamped
+            ? "\(country.name), stamped, \(rating?.displayName ?? "")\(hard ? ", Cartographer's Seal" : "")"
+            : "Unstamped mystery country")
+    }
+
+    @ViewBuilder
+    private func cardBorder(stamped: Bool, hard: Bool) -> some View {
+        if stamped && hard {
+            ZStack {
+                RoundedRectangle(cornerRadius: 12).stroke(PQTheme.ink, lineWidth: 2)
+                RoundedRectangle(cornerRadius: 8).stroke(PQTheme.ink, lineWidth: 1).padding(4)
+            }
+        } else {
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(PQTheme.ink.opacity(stamped ? 0.4 : 0.12), lineWidth: 1)
+        }
+    }
+
+    // MARK: Passport page background
+
+    private var pageBackground: some View {
+        ZStack {
+            PQTheme.paper
+            // Subtle "security" guilloché stripes for a passport-page feel.
+            GeometryReader { geo in
+                Path { p in
+                    let step: CGFloat = 26
+                    var y: CGFloat = 0
+                    while y < geo.size.height {
+                        p.move(to: CGPoint(x: 0, y: y))
+                        p.addLine(to: CGPoint(x: geo.size.width, y: y + 12))
+                        y += step
+                    }
+                }
+                .stroke(PQTheme.ink.opacity(0.04), lineWidth: 1)
             }
         }
     }

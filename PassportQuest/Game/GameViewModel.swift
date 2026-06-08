@@ -250,6 +250,37 @@ final class GameViewModel: ObservableObject {
         activeTier = tier
     }
 
+    // MARK: Clue chips (start-on-shape, tap-to-reveal UX)
+
+    /// All clue tiers offered in this mode, for the chip row.
+    var availableTiers: [ClueTier] { difficulty.availableClues }
+
+    func isRevealed(_ tier: ClueTier) -> Bool { revealedTiers.contains(tier) }
+
+    /// Can the player afford to reveal one more clue right now?
+    var canAffordReveal: Bool {
+        difficulty.hintTokenCost == 0 || tokenBalance >= difficulty.hintTokenCost
+    }
+
+    /// Player tapped a clue chip. If it's already revealed, just switch to it;
+    /// otherwise reveal it (spending tokens where the mode charges for hints).
+    /// Returns false if the reveal couldn't be afforded.
+    @discardableResult
+    func tapTier(_ tier: ClueTier) -> Bool {
+        if revealedTiers.contains(tier) {
+            activeTier = tier
+            return true
+        }
+        guard difficulty.allowsManualReveal else { return false }
+        guard store.spendTokens(difficulty.hintTokenCost) else { return false }
+        if difficulty.hintTokenCost > 0 {
+            usedHintThisRound = true
+            store.resetStreak() // paying for a hint breaks the no-hint streak
+        }
+        reveal(tier)
+        return true
+    }
+
     // MARK: Input mode
 
     /// Whether the optional Type It In mode is unlocked (Easy/Medium gate).

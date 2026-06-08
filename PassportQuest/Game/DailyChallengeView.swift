@@ -65,10 +65,13 @@ struct DailyChallengeView: View {
                     } else {
                         ClueView(country: country,
                                  activeTier: activeTier,
+                                 availableTiers: difficulty.mysteryAvailableClues,
                                  revealedTiers: revealedTiers,
                                  factSeed: dayKey.hashValue,
-                                 onSelectTier: { activeTier = $0 })
-                        revealControl
+                                 revealCost: difficulty.hintTokenCost,
+                                 canAffordReveal: difficulty.hintTokenCost == 0
+                                     || store.progress.hintTokens >= difficulty.hintTokenCost,
+                                 onTapTier: { tier in dailyTapTier(tier) })
                         answerArea
                         if let encouragement {
                             Text(encouragement)
@@ -123,28 +126,13 @@ struct DailyChallengeView: View {
 
     // MARK: Reveal
 
-    @ViewBuilder
-    private var revealControl: some View {
-        if difficulty.allowsManualReveal, let next = nextRevealable {
-            Button {
-                guard store.spendTokens(difficulty.hintTokenCost) else { return }
-                animateRespectingMotion(settings) { reveal(next) }
-            } label: {
-                HStack {
-                    Image(systemName: "eye.fill")
-                    Text("Reveal \(next.title)")
-                    if difficulty.hintTokenCost > 0 {
-                        Spacer(); Label("\(difficulty.hintTokenCost)", systemImage: "ticket.fill")
-                    }
-                }
-                .font(.subheadline.weight(.semibold))
-                .padding(.horizontal, 18)
-                .frame(maxWidth: .infinity, minHeight: PQTheme.minTap)
-                .background(RoundedRectangle(cornerRadius: 14).fill(PQTheme.gold.opacity(0.25)))
-                .foregroundColor(PQTheme.ink)
-            }
-            .disabled(difficulty.hintTokenCost > store.progress.hintTokens && difficulty.hintTokenCost > 0)
-        }
+    /// Tap a clue chip: reveal a locked tier (spending tokens) or switch to a
+    /// revealed one.
+    private func dailyTapTier(_ tier: ClueTier) {
+        if revealedTiers.contains(tier) { activeTier = tier; return }
+        guard difficulty.allowsManualReveal else { return }
+        guard store.spendTokens(difficulty.hintTokenCost) else { return }
+        animateRespectingMotion(settings) { reveal(tier) }
     }
 
     private var nextRevealable: ClueTier? {

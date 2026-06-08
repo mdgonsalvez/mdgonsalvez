@@ -2,9 +2,10 @@
 //  ClueView.swift
 //  PassportQuest
 //
-//  Renders whichever clue tier is currently active for a country, plus a row
-//  of tier "chips" so the player can flick between clues they have already
-//  revealed. Pure presentation — all reveal logic lives in GameViewModel.
+//  Renders the active clue and a row of clue "chips". Every round opens on the
+//  Mystery Shape; the other clues appear as chips the player can tap to reveal
+//  (locked chips show their token cost). The active continent is shown next to
+//  the clue so the player always has a sense of place.
 //
 
 import SwiftUI
@@ -12,33 +13,41 @@ import SwiftUI
 struct ClueView: View {
     let country: Country
     let activeTier: ClueTier
+    /// Every clue tier offered in this mode (for the chip row).
+    let availableTiers: [ClueTier]
+    /// Tiers already revealed.
     let revealedTiers: [ClueTier]
     /// A stable seed so the random fact stays constant for this round.
     let factSeed: Int
-    /// Called when the player taps an already-revealed tier chip.
-    var onSelectTier: (ClueTier) -> Void = { _ in }
+    /// Token cost to reveal one more clue (0 = free).
+    let revealCost: Int
+    /// Whether the player can currently afford a reveal.
+    let canAffordReveal: Bool
+    /// Tap handler for a chip: reveals a locked tier or switches to a revealed one.
+    var onTapTier: (ClueTier) -> Void = { _ in }
 
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 14) {
             // The active clue stage.
             clueStage
                 .frame(maxWidth: .infinity)
                 .frame(height: 240)
-                .background(
-                    RoundedRectangle(cornerRadius: 24)
-                        .fill(PQTheme.paperDeep)
-                )
-                .overlay(
-                    RoundedRectangle(cornerRadius: 24)
-                        .stroke(PQTheme.ink.opacity(0.15), lineWidth: 1)
-                )
+                .background(RoundedRectangle(cornerRadius: 24).fill(PQTheme.paperDeep))
+                .overlay(RoundedRectangle(cornerRadius: 24).stroke(PQTheme.ink.opacity(0.15), lineWidth: 1))
 
-            // Tier chips for revealed clues.
-            if revealedTiers.count > 1 {
-                HStack(spacing: 10) {
-                    ForEach(revealedTiers) { tier in
-                        tierChip(tier)
-                    }
+            // Continent label, shown next to every clue.
+            Label(country.continent.displayName, systemImage: "globe.europe.africa")
+                .font(.subheadline.weight(.semibold))
+                .foregroundColor(PQTheme.ink)
+                .padding(.horizontal, 14).padding(.vertical, 6)
+                .background(Capsule().fill(PQTheme.paperDeep))
+                .overlay(Capsule().stroke(PQTheme.ink.opacity(0.15), lineWidth: 1))
+                .accessibilityLabel("Continent: \(country.continent.displayName)")
+
+            // Clue chips: all available tiers, tap to reveal/switch.
+            HStack(spacing: 8) {
+                ForEach(availableTiers) { tier in
+                    tierChip(tier)
                 }
             }
         }
@@ -68,63 +77,60 @@ struct ClueView: View {
             .accessibilityElement(children: .combine)
             .accessibilityLabel("Fun fact: \(country.clueFact(seed: factSeed))")
         case .photo:
-            landmarkPlaceholder
-        }
-    }
-
-    /// Labelled placeholder for the landmark/photo clue. Production swaps in an
-    /// illustrated asset (see Assets.xcassets/README).
-    private var landmarkPlaceholder: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 16)
-                .fill(
-                    LinearGradient(colors: [Color(red: 0.55, green: 0.7, blue: 0.85),
-                                            Color(red: 0.75, green: 0.85, blue: 0.95)],
-                                   startPoint: .top, endPoint: .bottom)
-                )
             VStack(spacing: 12) {
-                Image(systemName: "photo.artframe")
-                    .font(.system(size: 48))
-                    .foregroundColor(.white)
+                Text(LandmarkArt.emoji(for: country))
+                    .font(.system(size: 104))
                 Text(Country.redactingOwnName(in: country.landmarkName, country: country))
                     .font(.title2.weight(.bold))
-                    .foregroundColor(.white)
+                    .foregroundColor(PQTheme.ink)
                     .multilineTextAlignment(.center)
+                    .padding(.horizontal, 16)
                 Text("Famous Place")
                     .font(.caption.weight(.semibold))
-                    .foregroundColor(.white.opacity(0.85))
+                    .foregroundColor(.secondary)
             }
-            .padding()
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel("Famous place clue")
         }
-        .padding(20)
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel("Famous place clue")
     }
 
     private func tierChip(_ tier: ClueTier) -> some View {
-        Button { onSelectTier(tier) } label: {
-            HStack(spacing: 6) {
-                Image(systemName: tier.symbolName)
-                Text(tier.title).font(.caption.weight(.semibold))
-            }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 10)
-            .frame(minHeight: 44)
-            .background(
-                Capsule().fill(tier == activeTier ? PQTheme.ink : PQTheme.paper)
-            )
-            .foregroundColor(tier == activeTier ? .white : PQTheme.ink)
-            .overlay(Capsule().stroke(PQTheme.ink.opacity(0.2), lineWidth: 1))
-        }
-        .accessibilityLabel("\(tier.title) clue\(tier == activeTier ? ", showing" : "")")
-    }
-}
+        let revealed = revealedTiers.contains(tier)
+        let isActive = tier == activeTier
+        let affordable = revealed || canAffordReveal
 
-#Preview {
-    ClueView(country: CountryDatabase.country(id: "JP")!,
-             activeTier: .flag,
-             revealedTiers: [.silhouette, .flag, .fact],
-             factSeed: 1)
-        .padding()
-        .background(PQTheme.paper)
+        return Button { onTapTier(tier) } label: {
+            VStack(spacing: 4) {
+                Image(systemName: revealed ? tier.symbolName : "eye.fill")
+                    .font(.subheadline)
+                Text(tier.title)
+                    .font(.caption2.weight(.semibold))
+                    .lineLimit(1)
+                if !revealed && revealCost > 0 {
+                    Label("\(revealCost)", systemImage: "ticket.fill")
+                        .font(.system(size: 9, weight: .bold))
+                        .labelStyle(.titleAndIcon)
+                }
+            }
+            .frame(maxWidth: .infinity, minHeight: PQTheme.minTap)
+            .padding(.vertical, 8).padding(.horizontal, 6)
+            .background(
+                RoundedRectangle(cornerRadius: 14)
+                    .fill(isActive ? PQTheme.ink : (revealed ? PQTheme.paper : PQTheme.paperDeep))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 14)
+                    .strokeBorder(style: StrokeStyle(lineWidth: 1.5,
+                                                     dash: revealed ? [] : [4, 3]))
+                    .foregroundColor(PQTheme.ink.opacity(revealed ? 0.25 : 0.4))
+            )
+            .foregroundColor(isActive ? .white : PQTheme.ink)
+            .opacity(affordable ? 1 : 0.45)
+        }
+        .disabled(!affordable)
+        .accessibilityLabel(revealed
+            ? "\(tier.title) clue\(isActive ? ", showing" : "")"
+            : (revealCost > 0 ? "Reveal \(tier.title) clue, costs \(revealCost) tokens"
+                              : "Reveal \(tier.title) clue"))
+    }
 }

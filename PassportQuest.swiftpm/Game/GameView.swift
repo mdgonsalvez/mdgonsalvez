@@ -82,11 +82,14 @@ struct GameView: View {
             VStack(spacing: 18) {
                 ClueView(country: country,
                          activeTier: game.activeTier,
+                         availableTiers: game.availableTiers,
                          revealedTiers: game.revealedTiers,
                          factSeed: country.id.hashValue,
-                         onSelectTier: { game.showTier($0) })
-
-                revealControl
+                         revealCost: game.revealCost,
+                         canAffordReveal: game.canAffordReveal,
+                         onTapTier: { tier in
+                             animateRespectingMotion(settings) { game.tapTier(tier) }
+                         })
 
                 if let nudge = game.wrongNudge {
                     Label(nudge, systemImage: "sparkles")
@@ -112,34 +115,6 @@ struct GameView: View {
                 }
             }
             .padding(.bottom, 24)
-        }
-    }
-
-    @ViewBuilder
-    private var revealControl: some View {
-        if settings.activeDifficulty.allowsManualReveal,
-           game.phase == .guessing || game.phase == .wrong,
-           let next = game.nextRevealableTier {
-            Button {
-                animateRespectingMotion(settings) { game.revealNextClueManually() }
-            } label: {
-                HStack {
-                    Image(systemName: "eye.fill")
-                    Text("Reveal \(next.title)")
-                    if game.revealCost > 0 {
-                        Spacer()
-                        Label("\(game.revealCost)", systemImage: "ticket.fill")
-                    }
-                }
-                .font(.subheadline.weight(.semibold))
-                .padding(.horizontal, 18)
-                .frame(maxWidth: .infinity, minHeight: PQTheme.minTap)
-                .background(RoundedRectangle(cornerRadius: 14)
-                    .fill(game.canManuallyReveal ? PQTheme.gold.opacity(0.25) : Color.gray.opacity(0.15)))
-                .foregroundColor(PQTheme.ink)
-            }
-            .disabled(!game.canManuallyReveal)
-            .accessibilityHint(game.revealCost > 0 ? "Costs \(game.revealCost) hint tokens" : "Free reveal")
         }
     }
 
