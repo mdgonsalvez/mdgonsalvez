@@ -55,8 +55,11 @@ enum PQTheme {
     static let paperDeep = Color(red: 0.93, green: 0.89, blue: 0.81)
     /// Deep navy used for ink, borders and primary text.
     static let ink = Color(red: 0.11, green: 0.16, blue: 0.30)
-    /// Accent gold for seals and highlights.
+    /// Accent gold for seals and highlights (use as a FILL / on dark ink).
     static let gold = Color(hex: "#F1C40F")
+    /// Darker gold for gold-coloured TEXT or ICONS on the light paper, where the
+    /// bright gold fails WCAG contrast.
+    static let goldDeep = Color(hex: "#B8860B")
     static let positive = Color(red: 0.16, green: 0.52, blue: 0.32)
 
     /// Minimum accessible tap target (spec: 48×48 pt).

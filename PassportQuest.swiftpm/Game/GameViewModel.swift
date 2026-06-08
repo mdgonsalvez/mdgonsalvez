@@ -217,24 +217,7 @@ final class GameViewModel: ObservableObject {
             .min()
     }
 
-    /// True if the player can manually reveal another clue (mode permits it,
-    /// a tier remains, and they can afford the token cost).
-    var canManuallyReveal: Bool {
-        guard difficulty.allowsManualReveal, nextRevealableTier != nil else { return false }
-        let cost = difficulty.hintTokenCost
-        return cost == 0 || store.progress.hintTokens >= cost
-    }
-
     var revealCost: Int { difficulty.hintTokenCost }
-
-    /// Player taps "Reveal another clue". Spends tokens, marks hint-used.
-    func revealNextClueManually() {
-        guard difficulty.allowsManualReveal, let tier = nextRevealableTier else { return }
-        guard store.spendTokens(difficulty.hintTokenCost) else { return }
-        usedHintThisRound = true
-        store.resetStreak() // using a hint breaks the no-hint streak
-        reveal(tier)
-    }
 
     /// Auto-reveals the next clue without cost (after a wrong answer).
     private func autoRevealNextClue() {
@@ -280,8 +263,7 @@ final class GameViewModel: ObservableObject {
         guard difficulty.allowsManualReveal else { return false }
         guard store.spendTokens(difficulty.hintTokenCost) else { return false }
         if difficulty.hintTokenCost > 0 {
-            usedHintThisRound = true
-            store.resetStreak() // paying for a hint breaks the no-hint streak
+            usedHintThisRound = true // recorded for stats, but no longer breaks the streak
         }
         reveal(tier)
         return true
@@ -350,12 +332,10 @@ final class GameViewModel: ObservableObject {
         store.recordStamp(countryID: country.id, rating: rating, mode: difficulty)
         store.incrementTotalCorrect()
 
-        // Streak handling (no-hint streak).
-        if usedHintThisRound {
-            store.resetStreak()
-        } else {
-            store.incrementStreak()
-        }
+        // The streak grows with every correct answer; only a WRONG answer breaks
+        // it. Revealing clues no longer punishes the streak — exploring clues to
+        // learn is exactly what we want kids to do.
+        store.incrementStreak()
 
         awardTokensForStamp(country: country)
         maybeAwardContinentBonus(for: country.continent)
@@ -410,7 +390,6 @@ final class GameViewModel: ObservableObject {
     }
 
     private func maybeTriggerHotStreak() {
-        guard !usedHintThisRound else { return }
         if store.progress.currentStreak > 0,
            store.progress.currentStreak % difficulty.hotStreakThreshold == 0 {
             let bonus = store.awardTokens(difficulty.hotStreakBonusTokens, mode: difficulty, streakActive: dailyStreakWasActive)

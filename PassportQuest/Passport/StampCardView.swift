@@ -104,7 +104,7 @@ struct StampCardView: View {
                 if earnedOnHard {
                     Label("Cartographer's Seal", systemImage: "seal.fill")
                         .font(.subheadline.weight(.semibold))
-                        .foregroundColor(PQTheme.gold)
+                        .foregroundColor(PQTheme.goldDeep)
                 }
             }
 

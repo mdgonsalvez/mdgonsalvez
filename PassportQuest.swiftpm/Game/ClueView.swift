@@ -67,7 +67,7 @@ struct ClueView: View {
             VStack(spacing: 12) {
                 Image(systemName: "lightbulb.fill")
                     .font(.largeTitle)
-                    .foregroundColor(PQTheme.gold)
+                    .foregroundColor(PQTheme.goldDeep)
                 Text(country.clueFact(seed: factSeed))
                     .font(.title3.weight(.medium))
                     .multilineTextAlignment(.center)

@@ -13,7 +13,10 @@ import os
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 APP_DIR = "PassportQuest"
 PROJECT_NAME = "PassportQuest"
-BUNDLE_ID = "com.example.passportquest"
+# NOTE: change this to your own reverse-DNS identifier before submitting to the
+# App Store (it must be unique to your developer account; "com.example.*" is
+# rejected by Apple). Then re-run this script to regenerate the project.
+BUNDLE_ID = "com.mdgonsalvez.passportquest"
 
 # Deterministic 24-hex-char identifiers.
 _counter = 0

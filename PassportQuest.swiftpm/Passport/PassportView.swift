@@ -158,7 +158,7 @@ private struct PassportPage: View {
                         .font(.subheadline.weight(.semibold))
                         .foregroundColor(.secondary)
                     if mastered {
-                        Image(systemName: "rosette").foregroundColor(PQTheme.gold)
+                        Image(systemName: "rosette").foregroundColor(PQTheme.goldDeep)
                             .accessibilityLabel("Mastery badge earned")
                     }
                 }
@@ -201,7 +201,7 @@ private struct PassportPage: View {
                 Image(systemName: "bolt.fill")
                 Text("\(continent.displayName) Sprint")
                 Spacer()
-                if mastered { Image(systemName: "rosette").foregroundColor(PQTheme.gold) }
+                if mastered { Image(systemName: "rosette").foregroundColor(PQTheme.goldDeep) }
                 Image(systemName: "chevron.right").foregroundColor(.secondary)
             }
             .font(.headline)

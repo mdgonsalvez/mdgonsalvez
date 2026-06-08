@@ -16,7 +16,7 @@ struct TokenBadgeView: View {
     var body: some View {
         HStack(spacing: 6) {
             Image(systemName: "ticket.fill")
-                .foregroundColor(PQTheme.gold)
+                .foregroundColor(PQTheme.goldDeep)
             Text(unlimited ? "∞" : "\(tokens)")
                 .font(.subheadline.weight(.bold).monospacedDigit())
                 .foregroundColor(PQTheme.ink)

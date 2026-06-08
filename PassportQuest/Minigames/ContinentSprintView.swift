@@ -86,7 +86,7 @@ struct ContinentSprintView: View {
                     Text("\(index + 1) / \(questionCount)")
                         .font(.headline.monospacedDigit()).foregroundColor(.secondary)
                     Spacer()
-                    Label("\(score)", systemImage: "star.fill").foregroundColor(PQTheme.gold)
+                    Label("\(score)", systemImage: "star.fill").foregroundColor(PQTheme.goldDeep)
                 }
                 ProgressView(value: max(0, timeRemaining), total: difficulty.sprintDuration)
                     .tint(timeRemaining < 10 ? .red : PQTheme.positive)
@@ -163,7 +163,7 @@ struct ContinentSprintView: View {
                 .font(.title3).foregroundColor(.secondary)
             if store.progress.masteryBadges.contains(continent) {
                 Label("\(continent.displayName) Mastery Badge earned!", systemImage: "rosette")
-                    .font(.headline).foregroundColor(PQTheme.gold)
+                    .font(.headline).foregroundColor(PQTheme.goldDeep)
             }
             Button { dismiss() } label: {
                 Text("Done")
