@@ -214,29 +214,41 @@ struct Country: Identifiable, Codable, Hashable {
         Country.redactingOwnName(in: fact(seed: seed), country: self)
     }
 
-    /// Blanks out the country's name / alternate names (and "the …" + possessive
-    /// forms) in `text`, replacing them with a neutral phrase. Used so fact and
-    /// landmark clues don't spoil themselves.
+    /// Blanks out the country's name, alternate names AND its capital city (the
+    /// two biggest spoiler sources) in `text`, replacing them with neutral
+    /// phrases. Used so fact and landmark clues don't give away the answer.
     static func redactingOwnName(in text: String, country: Country) -> String {
         var result = text
-        // Longest names first so e.g. "United Kingdom" is handled before "Kingdom".
-        let terms = ([country.name] + country.alternateNames)
-            .sorted { $0.count > $1.count }
-        for term in terms {
-            for (needle, replacement) in [
-                ("the " + term + "'s", "this country's"),
-                ("the " + term,        "this country"),
-                (term + "'s",          "this country's"),
-                (term,                 "this country"),
-            ] {
-                result = wholeWordReplace(result, needle: needle, with: replacement)
-            }
+        // Redact the capital first (most specific) so e.g. "Mexico City" becomes
+        // "its capital" rather than the garbled "this country City".
+        let capital = country.capital
+        if !capital.isEmpty && !capital.hasPrefix("No ") {
+            redact(&result, term: capital, base: "its capital", possessive: "its capital's")
         }
-        // Capitalise if a lowercase replacement landed at the very start.
-        if result.hasPrefix("this country") {
-            result = "This country" + result.dropFirst("this country".count)
+        // Then the country names, longest first ("United Kingdom" before "Kingdom").
+        let names = ([country.name] + country.alternateNames).sorted { $0.count > $1.count }
+        for name in names {
+            redact(&result, term: name, base: "this country", possessive: "this country's")
+        }
+        // Capitalise the first letter if a lowercase replacement landed at the start.
+        if let first = result.first, first.isLowercase {
+            result = first.uppercased() + result.dropFirst()
         }
         return result
+    }
+
+    /// Replaces `term` (with optional leading "the " and possessive "'s") with a
+    /// neutral phrase, on whole-word boundaries only.
+    private static func redact(_ text: inout String, term: String, base: String, possessive: String) {
+        guard !term.isEmpty else { return }
+        for (needle, replacement) in [
+            ("the " + term + "'s", possessive),
+            ("the " + term,        base),
+            (term + "'s",          possessive),
+            (term,                 base),
+        ] {
+            text = wholeWordReplace(text, needle: needle, with: replacement)
+        }
     }
 
     /// Case-insensitive replace of `needle` with `with`, but only on whole-word

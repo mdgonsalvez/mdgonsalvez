@@ -204,11 +204,13 @@ struct DailyChallengeView: View {
     }
 
     private func award() {
+        // Capture the streak status BEFORE touching the play date (which would
+        // otherwise always read "active").
+        let streakActive = store.dailyStreakActive()
         store.touchPlayDate()
         // Daily always grants a Gold "wax seal" stamp.
         store.recordStamp(countryID: country.id, rating: .gold, mode: difficulty)
         store.markDailyCompleted(dayKey: dayKey)
-        let streakActive = store.dailyStreakActive()
         // Daily bonus uses the per-continent earn rate as a generous reward.
         tokenAward = store.awardTokens(difficulty.tokenPerContinent, mode: difficulty, streakActive: streakActive)
         animateRespectingMotion(settings) { solved = true }

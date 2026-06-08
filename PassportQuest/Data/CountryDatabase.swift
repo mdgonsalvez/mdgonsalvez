@@ -321,7 +321,7 @@ enum CountryDatabase {
     // MARK: - Americas
 
     static let americas: [Country] = [
-        Country(id: "US", name: "United States", alternateNames: ["USA", "United States of America", "America"], continent: .americas,
+        Country(id: "US", name: "United States", alternateNames: ["USA", "US", "United States of America", "America"], continent: .americas,
                 emojiFlag: "🇺🇸", capital: "Washington, D.C.", currency: "US Dollar", nationalAnimal: "Bald Eagle",
                 facts: ["The United States has 50 states and was founded in 1776.",
                         "Alaska is its largest state and has more coastline than all the other states combined.",
@@ -991,7 +991,7 @@ enum CountryDatabase {
                         "Many Somalis are traditionally herders of camels and goats.",
                         "Frankincense trees grow in Somalia."],
                 landmarkName: "Laas Geel Cave Paintings", silhouetteAvailable: true, isCuratedEasyUnlock: false),
-        Country(id: "CD", name: "DR Congo", alternateNames: ["Democratic Republic of the Congo", "Congo-Kinshasa"], continent: .africa,
+        Country(id: "CD", name: "DR Congo", alternateNames: ["Democratic Republic of the Congo", "Congo-Kinshasa", "DRC", "Congo"], continent: .africa,
                 emojiFlag: "🇨🇩", capital: "Kinshasa", currency: "Congolese Franc", nationalAnimal: "Okapi",
                 facts: ["DR Congo has the second-largest rainforest in the world.",
                         "The rare okapi, related to giraffes, lives only here.",

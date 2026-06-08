@@ -30,15 +30,13 @@
 		PQ000000000000000000002A /* SilhouetteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = PQ0000000000000000000029 /* SilhouetteView.swift */; };
 		PQ000000000000000000002C /* ContinentSprintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = PQ000000000000000000002B /* ContinentSprintView.swift */; };
 		PQ000000000000000000002E /* TravellersTriviaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = PQ000000000000000000002D /* TravellersTriviaView.swift */; };
-		PQ0000000000000000000030 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = PQ000000000000000000002F /* GridView.swift */; };
-		PQ0000000000000000000032 /* PassportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = PQ0000000000000000000031 /* PassportView.swift */; };
-		PQ0000000000000000000034 /* StampCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = PQ0000000000000000000033 /* StampCardView.swift */; };
-		PQ0000000000000000000036 /* WorldMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = PQ0000000000000000000035 /* WorldMapView.swift */; };
-		PQ0000000000000000000038 /* PassportQuestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = PQ0000000000000000000037 /* PassportQuestApp.swift */; };
-		PQ000000000000000000003A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = PQ0000000000000000000039 /* SettingsView.swift */; };
-		PQ000000000000000000003C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = PQ000000000000000000003B /* Assets.xcassets */; };
-		PQ000000000000000000003E /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = PQ000000000000000000003D /* PrivacyInfo.xcprivacy */; };
-		PQ0000000000000000000040 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = PQ000000000000000000003F /* Localizable.strings */; };
+		PQ0000000000000000000030 /* PassportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = PQ000000000000000000002F /* PassportView.swift */; };
+		PQ0000000000000000000032 /* StampCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = PQ0000000000000000000031 /* StampCardView.swift */; };
+		PQ0000000000000000000034 /* PassportQuestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = PQ0000000000000000000033 /* PassportQuestApp.swift */; };
+		PQ0000000000000000000036 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = PQ0000000000000000000035 /* SettingsView.swift */; };
+		PQ0000000000000000000038 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = PQ0000000000000000000037 /* Assets.xcassets */; };
+		PQ000000000000000000003A /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = PQ0000000000000000000039 /* PrivacyInfo.xcprivacy */; };
+		PQ000000000000000000003C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = PQ000000000000000000003B /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -65,20 +63,18 @@
 		PQ0000000000000000000029 /* SilhouetteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SilhouetteView.swift"; sourceTree = "<group>"; };
 		PQ000000000000000000002B /* ContinentSprintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContinentSprintView.swift"; sourceTree = "<group>"; };
 		PQ000000000000000000002D /* TravellersTriviaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TravellersTriviaView.swift"; sourceTree = "<group>"; };
-		PQ000000000000000000002F /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GridView.swift"; sourceTree = "<group>"; };
-		PQ0000000000000000000031 /* PassportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PassportView.swift"; sourceTree = "<group>"; };
-		PQ0000000000000000000033 /* StampCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StampCardView.swift"; sourceTree = "<group>"; };
-		PQ0000000000000000000035 /* WorldMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WorldMapView.swift"; sourceTree = "<group>"; };
-		PQ0000000000000000000037 /* PassportQuestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PassportQuestApp.swift"; sourceTree = "<group>"; };
-		PQ0000000000000000000039 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsView.swift"; sourceTree = "<group>"; };
-		PQ000000000000000000003B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		PQ000000000000000000003D /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		PQ000000000000000000004B /* PassportQuest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PassportQuest.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		PQ0000000000000000000041 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = "en.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		PQ000000000000000000002F /* PassportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PassportView.swift"; sourceTree = "<group>"; };
+		PQ0000000000000000000031 /* StampCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "StampCardView.swift"; sourceTree = "<group>"; };
+		PQ0000000000000000000033 /* PassportQuestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PassportQuestApp.swift"; sourceTree = "<group>"; };
+		PQ0000000000000000000035 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SettingsView.swift"; sourceTree = "<group>"; };
+		PQ0000000000000000000037 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		PQ0000000000000000000039 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		PQ0000000000000000000047 /* PassportQuest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PassportQuest.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		PQ000000000000000000003D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = "en.lproj/Localizable.strings"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		PQ0000000000000000000050 /* Frameworks */ = {
+		PQ000000000000000000004C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -88,7 +84,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		PQ0000000000000000000043 /* Components */ = {
+		PQ000000000000000000003F /* Components */ = {
 			isa = PBXGroup;
 			children = (
 				PQ0000000000000000000001 /* ConfettiView.swift */,
@@ -100,7 +96,7 @@
 			path = "Components";
 			sourceTree = "<group>";
 		};
-		PQ0000000000000000000044 /* Data */ = {
+		PQ0000000000000000000040 /* Data */ = {
 			isa = PBXGroup;
 			children = (
 				PQ000000000000000000000D /* Country.swift */,
@@ -112,7 +108,7 @@
 			path = "Data";
 			sourceTree = "<group>";
 		};
-		PQ0000000000000000000045 /* Difficulty */ = {
+		PQ0000000000000000000041 /* Difficulty */ = {
 			isa = PBXGroup;
 			children = (
 				PQ0000000000000000000017 /* DifficultyMode.swift */,
@@ -122,7 +118,7 @@
 			path = "Difficulty";
 			sourceTree = "<group>";
 		};
-		PQ0000000000000000000046 /* Game */ = {
+		PQ0000000000000000000042 /* Game */ = {
 			isa = PBXGroup;
 			children = (
 				PQ000000000000000000001D /* AnswerInputView.swift */,
@@ -136,7 +132,7 @@
 			path = "Game";
 			sourceTree = "<group>";
 		};
-		PQ0000000000000000000047 /* Minigames */ = {
+		PQ0000000000000000000043 /* Minigames */ = {
 			isa = PBXGroup;
 			children = (
 				PQ000000000000000000002B /* ContinentSprintView.swift */,
@@ -145,78 +141,76 @@
 			path = "Minigames";
 			sourceTree = "<group>";
 		};
-		PQ0000000000000000000048 /* Passport */ = {
+		PQ0000000000000000000044 /* Passport */ = {
 			isa = PBXGroup;
 			children = (
-				PQ000000000000000000002F /* GridView.swift */,
-				PQ0000000000000000000031 /* PassportView.swift */,
-				PQ0000000000000000000033 /* StampCardView.swift */,
-				PQ0000000000000000000035 /* WorldMapView.swift */,
+				PQ000000000000000000002F /* PassportView.swift */,
+				PQ0000000000000000000031 /* StampCardView.swift */,
 			);
 			path = "Passport";
 			sourceTree = "<group>";
 		};
-		PQ0000000000000000000049 /* Settings */ = {
+		PQ0000000000000000000045 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				PQ0000000000000000000039 /* SettingsView.swift */,
+				PQ0000000000000000000035 /* SettingsView.swift */,
 			);
 			path = "Settings";
 			sourceTree = "<group>";
 		};
-		PQ000000000000000000004A /* Resources */ = {
+		PQ0000000000000000000046 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				PQ000000000000000000003F /* Localizable.strings */,
-				PQ000000000000000000003D /* PrivacyInfo.xcprivacy */,
+				PQ000000000000000000003B /* Localizable.strings */,
+				PQ0000000000000000000039 /* PrivacyInfo.xcprivacy */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		PQ0000000000000000000042 /* PassportQuest */ = {
+		PQ000000000000000000003E /* PassportQuest */ = {
 			isa = PBXGroup;
 			children = (
-				PQ0000000000000000000043 /* Components/ */,
-				PQ0000000000000000000044 /* Data/ */,
-				PQ0000000000000000000045 /* Difficulty/ */,
-				PQ0000000000000000000046 /* Game/ */,
-				PQ0000000000000000000047 /* Minigames/ */,
-				PQ0000000000000000000048 /* Passport/ */,
-				PQ0000000000000000000049 /* Settings/ */,
+				PQ000000000000000000003F /* Components/ */,
+				PQ0000000000000000000040 /* Data/ */,
+				PQ0000000000000000000041 /* Difficulty/ */,
+				PQ0000000000000000000042 /* Game/ */,
+				PQ0000000000000000000043 /* Minigames/ */,
+				PQ0000000000000000000044 /* Passport/ */,
+				PQ0000000000000000000045 /* Settings/ */,
 				PQ000000000000000000000B /* ContentView.swift */,
-				PQ0000000000000000000037 /* PassportQuestApp.swift */,
-				PQ000000000000000000003B /* Assets.xcassets */,
-				PQ000000000000000000004A /* Resources/ */,
+				PQ0000000000000000000033 /* PassportQuestApp.swift */,
+				PQ0000000000000000000037 /* Assets.xcassets */,
+				PQ0000000000000000000046 /* Resources/ */,
 			);
 			path = "PassportQuest";
 			sourceTree = "<group>";
 		};
-		PQ000000000000000000004C /* Products */ = {
+		PQ0000000000000000000048 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				PQ000000000000000000004B /* PassportQuest.app */,
+				PQ0000000000000000000047 /* PassportQuest.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		PQ000000000000000000004D = {
+		PQ0000000000000000000049 = {
 			isa = PBXGroup;
 			children = (
-				PQ0000000000000000000042 /* PassportQuest */,
-				PQ000000000000000000004C /* Products */,
+				PQ000000000000000000003E /* PassportQuest */,
+				PQ0000000000000000000048 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		PQ0000000000000000000051 /* PassportQuest */ = {
+		PQ000000000000000000004D /* PassportQuest */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = PQ0000000000000000000053 /* Build configuration list for PBXNativeTarget "PassportQuest" */;
+			buildConfigurationList = PQ000000000000000000004F /* Build configuration list for PBXNativeTarget "PassportQuest" */;
 			buildPhases = (
-				PQ000000000000000000004E /* Sources */,
-				PQ0000000000000000000050 /* Frameworks */,
-				PQ000000000000000000004F /* Resources */,
+				PQ000000000000000000004A /* Sources */,
+				PQ000000000000000000004C /* Frameworks */,
+				PQ000000000000000000004B /* Resources */,
 			);
 			buildRules = (
 			);
@@ -224,25 +218,25 @@
 			);
 			name = "PassportQuest";
 			productName = "PassportQuest";
-			productReference = PQ000000000000000000004B /* PassportQuest.app */;
+			productReference = PQ0000000000000000000047 /* PassportQuest.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		PQ0000000000000000000052 /* Project object */ = {
+		PQ000000000000000000004E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
-					PQ0000000000000000000051 = {
+					PQ000000000000000000004D = {
 						CreatedOnToolsVersion = 15.0;
 					};
 				};
 			};
-			buildConfigurationList = PQ0000000000000000000054 /* Build configuration list for PBXProject "PassportQuest" */;
+			buildConfigurationList = PQ0000000000000000000050 /* Build configuration list for PBXProject "PassportQuest" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -250,31 +244,31 @@
 				Base,
 				en,
 			);
-			mainGroup = PQ000000000000000000004D;
-			productRefGroup = PQ000000000000000000004C /* Products */;
+			mainGroup = PQ0000000000000000000049;
+			productRefGroup = PQ0000000000000000000048 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				PQ0000000000000000000051 /* PassportQuest */,
+				PQ000000000000000000004D /* PassportQuest */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		PQ000000000000000000004F /* Resources */ = {
+		PQ000000000000000000004B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				PQ000000000000000000003C /* Assets.xcassets in Resources */,
-				PQ000000000000000000003E /* PrivacyInfo.xcprivacy in Resources */,
-				PQ0000000000000000000040 /* Localizable.strings in Resources */,
+				PQ0000000000000000000038 /* Assets.xcassets in Resources */,
+				PQ000000000000000000003A /* PrivacyInfo.xcprivacy in Resources */,
+				PQ000000000000000000003C /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		PQ000000000000000000004E /* Sources */ = {
+		PQ000000000000000000004A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -301,22 +295,20 @@
 				PQ000000000000000000002A /* SilhouetteView.swift in Sources */,
 				PQ000000000000000000002C /* ContinentSprintView.swift in Sources */,
 				PQ000000000000000000002E /* TravellersTriviaView.swift in Sources */,
-				PQ0000000000000000000030 /* GridView.swift in Sources */,
-				PQ0000000000000000000032 /* PassportView.swift in Sources */,
-				PQ0000000000000000000034 /* StampCardView.swift in Sources */,
-				PQ0000000000000000000036 /* WorldMapView.swift in Sources */,
-				PQ0000000000000000000038 /* PassportQuestApp.swift in Sources */,
-				PQ000000000000000000003A /* SettingsView.swift in Sources */,
+				PQ0000000000000000000030 /* PassportView.swift in Sources */,
+				PQ0000000000000000000032 /* StampCardView.swift in Sources */,
+				PQ0000000000000000000034 /* PassportQuestApp.swift in Sources */,
+				PQ0000000000000000000036 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		PQ000000000000000000003F /* Localizable.strings */ = {
+		PQ000000000000000000003B /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				PQ0000000000000000000041 /* en */,
+				PQ000000000000000000003D /* en */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -324,7 +316,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		PQ0000000000000000000055 /* Debug */ = {
+		PQ0000000000000000000051 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -360,7 +352,7 @@
 			};
 			name = Debug;
 		};
-		PQ0000000000000000000056 /* Release */ = {
+		PQ0000000000000000000052 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -389,7 +381,7 @@
 			};
 			name = Release;
 		};
-		PQ0000000000000000000057 /* Debug */ = {
+		PQ0000000000000000000053 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -415,7 +407,7 @@
 			};
 			name = Debug;
 		};
-		PQ0000000000000000000058 /* Release */ = {
+		PQ0000000000000000000054 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -444,25 +436,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		PQ0000000000000000000054 /* Build configuration list for PBXProject "PassportQuest" */ = {
+		PQ0000000000000000000050 /* Build configuration list for PBXProject "PassportQuest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				PQ0000000000000000000055 /* Debug */,
-				PQ0000000000000000000056 /* Release */,
+				PQ0000000000000000000051 /* Debug */,
+				PQ0000000000000000000052 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		PQ0000000000000000000053 /* Build configuration list for PBXNativeTarget "PassportQuest" */ = {
+		PQ000000000000000000004F /* Build configuration list for PBXNativeTarget "PassportQuest" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				PQ0000000000000000000057 /* Debug */,
-				PQ0000000000000000000058 /* Release */,
+				PQ0000000000000000000053 /* Debug */,
+				PQ0000000000000000000054 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = PQ0000000000000000000052 /* Project object */;
+	rootObject = PQ000000000000000000004E /* Project object */;
 }

@@ -23,7 +23,7 @@ struct DifficultyBadgeView: View {
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 8)
-            .frame(minHeight: 36)
+            .frame(minHeight: PQTheme.minTap)
             .background(
                 Capsule().fill(PQTheme.paperDeep)
             )

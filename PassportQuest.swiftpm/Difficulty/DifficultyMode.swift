@@ -222,10 +222,11 @@ enum DifficultyMode: String, Codable, CaseIterable, Identifiable {
     // MARK: Stamp rating
 
     /// Maps the clue tier a player answered on to a stamp rating for this mode.
-    /// Returns the spec matrix:
-    ///   Easy   — any correct answer is Gold.
-    ///   Medium — tiers 1–2 Gold, tier 3 Silver, tier 4 Bronze.
-    ///   Hard   — tier 1 Gold only (Hard only ever exposes tier 1).
+    /// Every mode now opens on the silhouette and can reveal all four tiers, so
+    /// the rating reflects how early the player guessed; harder modes are stricter:
+    ///   Easy   — any correct answer is Gold (generous, for young players).
+    ///   Medium — silhouette/flag Gold, fact Silver, photo Bronze.
+    ///   Hard   — silhouette Gold, flag Silver, fact/photo Bronze (shape is king).
     func stampRating(forAnsweredTier tier: ClueTier) -> StampRating {
         switch self {
         case .easy:
@@ -237,8 +238,11 @@ enum DifficultyMode: String, Codable, CaseIterable, Identifiable {
             case .photo:             return .bronze
             }
         case .hard:
-            // Hard only ever shows the silhouette, so tier 1 is the only path.
-            return tier == .silhouette ? .gold : .silver
+            switch tier {
+            case .silhouette:   return .gold
+            case .flag:         return .silver
+            case .fact, .photo: return .bronze
+            }
         }
     }
 }

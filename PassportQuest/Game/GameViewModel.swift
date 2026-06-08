@@ -164,8 +164,14 @@ final class GameViewModel: ObservableObject {
 
     // MARK: Round lifecycle
 
+    /// Whether a daily streak was active at the start of this session. Captured
+    /// BEFORE touching the play date, which would otherwise always read true and
+    /// make the streak bonus always-on.
+    private var dailyStreakWasActive = false
+
     /// Begins (or resumes) play by loading the next country.
     func startSession() {
+        dailyStreakWasActive = store.dailyStreakActive()
         store.touchPlayDate()
         loadNextCountry()
     }
@@ -354,7 +360,7 @@ final class GameViewModel: ObservableObject {
         awardTokensForStamp(country: country)
         maybeAwardContinentBonus(for: country.continent)
         maybeTriggerHotStreak()
-        maybeTriggerTrivia(for: country)
+        maybeTriggerTrivia()
 
         phase = .correct(rating)
         awaitingNext = true
@@ -384,8 +390,7 @@ final class GameViewModel: ObservableObject {
     // MARK: Token awards
 
     private func awardTokensForStamp(country: Country) {
-        let streakActive = store.dailyStreakActive()
-        let award = store.awardTokens(difficulty.tokenPerStamp, mode: difficulty, streakActive: streakActive)
+        let award = store.awardTokens(difficulty.tokenPerStamp, mode: difficulty, streakActive: dailyStreakWasActive)
         lastTokenAward = award
     }
 
@@ -399,8 +404,7 @@ final class GameViewModel: ObservableObject {
         let key = "continentBonus.\(continent.rawValue)"
         if store.progress.seededStartingTokens[key] != true {
             store.progress.seededStartingTokens[key] = true
-            let streakActive = store.dailyStreakActive()
-            let bonus = store.awardTokens(difficulty.tokenPerContinent, mode: difficulty, streakActive: streakActive)
+            let bonus = store.awardTokens(difficulty.tokenPerContinent, mode: difficulty, streakActive: dailyStreakWasActive)
             lastTokenAward += bonus
         }
     }
@@ -409,8 +413,7 @@ final class GameViewModel: ObservableObject {
         guard !usedHintThisRound else { return }
         if store.progress.currentStreak > 0,
            store.progress.currentStreak % difficulty.hotStreakThreshold == 0 {
-            let streakActive = store.dailyStreakActive()
-            let bonus = store.awardTokens(difficulty.hotStreakBonusTokens, mode: difficulty, streakActive: streakActive)
+            let bonus = store.awardTokens(difficulty.hotStreakBonusTokens, mode: difficulty, streakActive: dailyStreakWasActive)
             lastTokenAward += bonus
             triggerHotStreakVisual()
         }
@@ -425,10 +428,16 @@ final class GameViewModel: ObservableObject {
 
     // MARK: Traveller's Trivia (every 5th correct)
 
-    private func maybeTriggerTrivia(for country: Country) {
+    private func maybeTriggerTrivia() {
         guard store.progress.totalCorrect % 5 == 0 else { return }
-        // Only meaningful if the stamp can still be upgraded.
-        guard let rating = store.progress.rating(for: country.id), rating < .gold else { return }
+        // Trivia upgrades a stamp, so it only makes sense when the player has a
+        // sub-Gold stamp to improve. (On Easy every stamp is Gold, so it simply
+        // doesn't fire — there's nothing to upgrade.) Pick one such stamp.
+        let upgradeable = store.progress.stampsEarned
+            .filter { $0.value < .gold }
+            .map { $0.key }
+        guard let targetID = upgradeable.randomElement(),
+              let country = CountryDatabase.country(id: targetID) else { return }
         pendingTrivia = makeTriviaQuestion(for: country)
     }
 

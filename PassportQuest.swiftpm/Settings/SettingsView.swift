@@ -164,7 +164,7 @@ struct SettingsView: View {
         } header: {
             Text("Passport Ink Colour")
         } footer: {
-            Text("Your stamps and world map fill in with this colour.")
+            Text("Your stamps and passport progress fill in with this colour.")
         }
     }
 

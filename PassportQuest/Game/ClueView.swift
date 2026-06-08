@@ -36,7 +36,7 @@ struct ClueView: View {
                 .overlay(RoundedRectangle(cornerRadius: 24).stroke(PQTheme.ink.opacity(0.15), lineWidth: 1))
 
             // Continent label, shown next to every clue.
-            Label(country.continent.displayName, systemImage: "globe.europe.africa")
+            Label(country.continent.displayName, systemImage: country.continent.symbolName)
                 .font(.subheadline.weight(.semibold))
                 .foregroundColor(PQTheme.ink)
                 .padding(.horizontal, 14).padding(.vertical, 6)
@@ -80,8 +80,9 @@ struct ClueView: View {
             VStack(spacing: 12) {
                 Text(LandmarkArt.emoji(for: country))
                     .font(.system(size: 104))
-                Text(Country.redactingOwnName(in: country.landmarkName, country: country))
-                    .font(.title2.weight(.bold))
+                // A generic description, never the real name (which would spoil it).
+                Text(LandmarkArt.phrase(for: country))
+                    .font(.title3.weight(.semibold))
                     .foregroundColor(PQTheme.ink)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 16)
@@ -90,7 +91,7 @@ struct ClueView: View {
                     .foregroundColor(.secondary)
             }
             .accessibilityElement(children: .combine)
-            .accessibilityLabel("Famous place clue")
+            .accessibilityLabel("Famous place clue: \(LandmarkArt.phrase(for: country))")
         }
     }
 
@@ -106,6 +107,7 @@ struct ClueView: View {
                 Text(tier.title)
                     .font(.caption2.weight(.semibold))
                     .lineLimit(1)
+                    .minimumScaleFactor(0.7)
                 if !revealed && revealCost > 0 {
                     Label("\(revealCost)", systemImage: "ticket.fill")
                         .font(.system(size: 9, weight: .bold))
