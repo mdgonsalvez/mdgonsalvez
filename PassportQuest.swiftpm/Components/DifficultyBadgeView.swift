@@ -35,9 +35,3 @@ struct DifficultyBadgeView: View {
         .accessibilityLabel("Difficulty: \(settings.activeDifficulty.personaName). Double tap to change in Settings.")
     }
 }
-
-#Preview {
-    DifficultyBadgeView()
-        .environmentObject(GameSettings())
-        .padding()
-}

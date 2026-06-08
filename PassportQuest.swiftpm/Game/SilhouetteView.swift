@@ -67,14 +67,3 @@ struct SilhouetteView: View {
                             : "Mystery shape in \(country.continent.displayName)")
     }
 }
-
-#Preview {
-    HStack {
-        SilhouetteView(country: CountryDatabase.country(id: "IT")!)
-            .frame(width: 160, height: 160)
-        SilhouetteView(country: CountryDatabase.country(id: "NL")!)
-            .frame(width: 160, height: 160)
-    }
-    .padding()
-    .background(PQTheme.paper)
-}

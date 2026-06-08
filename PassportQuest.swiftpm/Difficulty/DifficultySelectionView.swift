@@ -115,8 +115,3 @@ struct DifficultySelectionView: View {
         }
     }
 }
-
-#Preview {
-    DifficultySelectionView(isFirstLaunch: true)
-        .environmentObject(GameSettings())
-}

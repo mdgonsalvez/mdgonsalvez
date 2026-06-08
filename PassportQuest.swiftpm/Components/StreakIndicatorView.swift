@@ -79,11 +79,3 @@ struct HotStreakOverlay: View {
         .accessibilityLabel("Hot streak! You earned bonus tokens.")
     }
 }
-
-#Preview {
-    ZStack {
-        PQTheme.paper.ignoresSafeArea()
-        HotStreakOverlay(inkColour: .blue)
-            .environmentObject(GameSettings())
-    }
-}

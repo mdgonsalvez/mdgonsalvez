@@ -95,14 +95,3 @@ struct ResultView: View {
         .accessibilityLabel(title)
     }
 }
-
-#Preview {
-    ResultView(country: CountryDatabase.country(id: "FR")!,
-               phase: .correct(.gold),
-               tokenAward: 4,
-               earnedOnHard: true,
-               onNext: {})
-        .environmentObject(GameSettings())
-        .padding()
-        .background(PQTheme.paperDeep)
-}

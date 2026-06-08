@@ -1,4 +1,4 @@
-// swift-tools-version: 5.9
+// swift-tools-version: 5.7
 
 // This is the Swift Playgrounds "App" manifest. It tells Swift Playgrounds (and
 // Xcode 15+) to treat this folder as a runnable iOS app. It is the no-Mac way to
@@ -26,10 +26,9 @@ let package = Package(
             teamIdentifier: "",
             displayVersion: "1.0",
             bundleVersion: "1",
-            // A friendly placeholder icon/accent so no asset catalog is needed.
-            // (Swap for a custom icon before any App Store submission.)
-            appIcon: .placeholder(icon: .globe),
-            accentColor: .presetColor(.indigo),
+            // Icon/accent intentionally left as Swift Playgrounds defaults to keep
+            // the manifest minimal and maximally compatible. (Add a custom icon
+            // before any App Store submission.)
             supportedDeviceFamilies: [
                 .pad,
                 .phone
@@ -44,12 +43,7 @@ let package = Package(
     targets: [
         .executableTarget(
             name: "AppModule",
-            path: ".",
-            // The English copy table (the app also runs without it, falling
-            // back to the literal strings in the UI).
-            resources: [
-                .process("Resources")
-            ]
+            path: "."
         )
     ]
 )

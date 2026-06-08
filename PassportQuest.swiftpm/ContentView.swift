@@ -52,9 +52,3 @@ struct ContentView: View {
         }
     }
 }
-
-#Preview {
-    ContentView()
-        .environmentObject(GameSettings())
-        .environmentObject(PlayerProgressStore())
-}

@@ -133,10 +133,3 @@ struct StampCardView: View {
         .background(PQTheme.paper.ignoresSafeArea())
     }
 }
-
-#Preview {
-    StampCardView(country: CountryDatabase.country(id: "BR")!,
-                  rating: .gold,
-                  earnedOnHard: true,
-                  unlockedFact: CountryDatabase.country(id: "BR")!.facts[0])
-}

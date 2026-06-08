@@ -99,10 +99,3 @@ struct ConfettiParticle {
         )
     }
 }
-
-#Preview {
-    ZStack {
-        PQTheme.paper.ignoresSafeArea()
-        ConfettiView().environmentObject(GameSettings())
-    }
-}

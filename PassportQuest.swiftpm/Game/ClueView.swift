@@ -119,12 +119,3 @@ struct ClueView: View {
         .accessibilityLabel("\(tier.title) clue\(tier == activeTier ? ", showing" : "")")
     }
 }
-
-#Preview {
-    ClueView(country: CountryDatabase.country(id: "JP")!,
-             activeTier: .flag,
-             revealedTiers: [.silhouette, .flag, .fact],
-             factSeed: 1)
-        .padding()
-        .background(PQTheme.paper)
-}

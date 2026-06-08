@@ -30,11 +30,3 @@ struct TokenBadgeView: View {
         .accessibilityLabel(unlimited ? "Hint tokens: unlimited" : "Hint tokens: \(tokens)")
     }
 }
-
-#Preview {
-    VStack {
-        TokenBadgeView(tokens: 12)
-        TokenBadgeView(tokens: 0, unlimited: true)
-    }
-    .padding()
-}
