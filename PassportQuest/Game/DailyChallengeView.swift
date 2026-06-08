@@ -233,7 +233,7 @@ struct DailyChallengeView: View {
                 .font(.title3.weight(.semibold))
                 .foregroundColor(PQTheme.ink)
             if solved && tokenAward > 0 {
-                Label("+\(tokenAward) bonus tokens", systemImage: "ticket.fill")
+                Label("+\(tokenAward) bonus Hint \(tokenAward == 1 ? "Coin" : "Coins")", systemImage: "ticket.fill")
                     .font(.headline).foregroundColor(PQTheme.ink)
             }
             Text("Come back tomorrow for a brand-new country!")

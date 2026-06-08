@@ -62,7 +62,7 @@ struct SettingsView: View {
                 pendingDifficulty = nil
             }
         } message: {
-            Text("This only changes how future rounds work. Every stamp you've already earned and all your hint tokens stay exactly as they are.")
+            Text("This only changes how future rounds work. Every stamp you've already earned and all your Hint Coins stay exactly as they are.")
         }
         // Guarded reset.
         .alert("Reset all progress?", isPresented: $showResetConfirm) {
@@ -72,9 +72,10 @@ struct SettingsView: View {
                 settings.hasCompletedFirstLaunch = false
                 settings.hasSeenIntro = false
                 settings.hasSeenClueTip = false
+                settings.hasSeenTriviaIntro = false
             }
         } message: {
-            Text("This permanently erases every stamp, badge and hint token, and starts your passport over. This can't be undone.")
+            Text("This permanently erases every stamp, badge and Hint Coin, and starts your passport over. This can't be undone.")
         }
     }
 
@@ -111,7 +112,7 @@ struct SettingsView: View {
         } header: {
             Text("Difficulty")
         } footer: {
-            Text("Changing difficulty only affects future rounds. Your stamps and tokens are never reset.")
+            Text("Changing difficulty only affects future rounds. Your stamps and Hint Coins are never reset.")
         }
     }
 
@@ -211,7 +212,7 @@ struct SettingsView: View {
     private var progressSection: some View {
         Section {
             LabeledContent("Stamps earned", value: "\(store.progress.stampedCount) / \(CountryDatabase.all.count)")
-            LabeledContent("Hint tokens", value: "\(store.progress.hintTokens)")
+            LabeledContent("Hint Coins", value: "\(store.progress.hintTokens)")
             LabeledContent("Best section badges", value: "\(store.progress.masteryBadges.count)")
             Button(role: .destructive) {
                 showResetConfirm = true

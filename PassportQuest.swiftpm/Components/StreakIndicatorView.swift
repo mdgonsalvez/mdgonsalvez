@@ -59,7 +59,7 @@ struct HotStreakOverlay: View {
                         .font(.system(size: 40, weight: .heavy, design: .rounded))
                         .foregroundColor(.white)
                         .shadow(radius: 4)
-                    Text("+ bonus tokens!")
+                    Text("+ bonus Hint Coins!")
                         .font(.title3.weight(.semibold))
                         .foregroundColor(.white)
                 }
@@ -76,6 +76,14 @@ struct HotStreakOverlay: View {
             }
         }
         .accessibilityElement()
-        .accessibilityLabel("Hot streak! You earned bonus tokens.")
+        .accessibilityLabel("Hot streak! You earned bonus Hint Coins.")
+    }
+}
+
+#Preview {
+    ZStack {
+        PQTheme.paper.ignoresSafeArea()
+        HotStreakOverlay(inkColour: .blue)
+            .environmentObject(GameSettings())
     }
 }

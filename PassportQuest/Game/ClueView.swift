@@ -110,8 +110,10 @@ struct ClueView: View {
                     .minimumScaleFactor(0.7)
                 if !revealed && revealCost > 0 {
                     Label("\(revealCost)", systemImage: "ticket.fill")
-                        .font(.system(size: 9, weight: .bold))
-                        .labelStyle(.titleAndIcon)
+                        .font(.caption2.weight(.heavy))
+                        .foregroundColor(PQTheme.goldDeep)
+                        .padding(.horizontal, 7).padding(.vertical, 2)
+                        .background(Capsule().fill(PQTheme.gold.opacity(0.28)))
                 }
             }
             .frame(maxWidth: .infinity, minHeight: PQTheme.minTap)
@@ -132,7 +134,7 @@ struct ClueView: View {
         .disabled(!affordable)
         .accessibilityLabel(revealed
             ? "\(tier.title) clue\(isActive ? ", showing" : "")"
-            : (revealCost > 0 ? "Reveal \(tier.title) clue, costs \(revealCost) tokens"
+            : (revealCost > 0 ? "Reveal \(tier.title) clue, costs \(revealCost) Hint \(revealCost == 1 ? "Coin" : "Coins")"
                               : "Reveal \(tier.title) clue"))
     }
 }

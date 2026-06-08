@@ -55,7 +55,7 @@ struct ResultView: View {
                 .font(.title3.weight(.semibold))
                 .foregroundColor(PQTheme.ink)
             if tokenAward > 0 {
-                Label("+\(tokenAward) tokens", systemImage: "ticket.fill")
+                Label("+\(tokenAward) Hint \(tokenAward == 1 ? "Coin" : "Coins")", systemImage: "ticket.fill")
                     .font(.headline)
                     .foregroundColor(PQTheme.ink)
             }

@@ -73,6 +73,7 @@ final class GameSettings: ObservableObject {
         static let reduceMotionUser = "pq.reduceMotionPreferred"
         static let hasSeenIntro     = "pq.hasSeenIntro"
         static let hasSeenClueTip   = "pq.hasSeenClueTip"
+        static let hasSeenTrivia    = "pq.hasSeenTriviaIntro"
     }
 
     private let defaults: UserDefaults
@@ -114,6 +115,11 @@ final class GameSettings: ObservableObject {
         didSet { defaults.set(hasSeenClueTip, forKey: Keys.hasSeenClueTip) }
     }
 
+    /// True once the one-time Traveller's Trivia explainer has been shown.
+    @Published var hasSeenTriviaIntro: Bool {
+        didSet { defaults.set(hasSeenTriviaIntro, forKey: Keys.hasSeenTrivia) }
+    }
+
     // MARK: Init
 
     init(defaults: UserDefaults = .standard) {
@@ -145,6 +151,7 @@ final class GameSettings: ObservableObject {
         self.prefersReducedMotion = defaults.bool(forKey: Keys.reduceMotionUser)
         self.hasSeenIntro = defaults.bool(forKey: Keys.hasSeenIntro)
         self.hasSeenClueTip = defaults.bool(forKey: Keys.hasSeenClueTip)
+        self.hasSeenTriviaIntro = defaults.bool(forKey: Keys.hasSeenTrivia)
     }
 
     // MARK: Convenience

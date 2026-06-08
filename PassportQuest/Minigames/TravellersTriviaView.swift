@@ -19,6 +19,9 @@ struct TravellersTriviaView: View {
 
     @State private var typed: String = ""
     @State private var result: Bool?
+    /// Shows the one-time explainer for this presentation (captured on appear so
+    /// flipping the persisted flag doesn't hide it mid-view).
+    @State private var showIntro = false
 
     var body: some View {
         ZStack {
@@ -29,6 +32,7 @@ struct TravellersTriviaView: View {
                 if let result {
                     resultCard(correct: result)
                 } else {
+                    if showIntro { introBanner }
                     questionCard
                     if question.options.isEmpty {
                         typeArea
@@ -40,6 +44,25 @@ struct TravellersTriviaView: View {
             .padding(24)
             .frame(maxWidth: 600)
         }
+        .onAppear {
+            if !settings.hasSeenTriviaIntro {
+                showIntro = true
+                settings.hasSeenTriviaIntro = true
+            }
+        }
+    }
+
+    private var introBanner: some View {
+        Text("Bonus round! Get this right and your new stamp jumps up a level — Bronze → Silver, Silver → Gold. ✨")
+            .font(.subheadline.weight(.medium))
+            .foregroundColor(PQTheme.ink)
+            .multilineTextAlignment(.center)
+            .fixedSize(horizontal: false, vertical: true)
+            .padding(14)
+            .frame(maxWidth: .infinity)
+            .background(RoundedRectangle(cornerRadius: 14).fill(PQTheme.gold.opacity(0.18)))
+            .overlay(RoundedRectangle(cornerRadius: 14).stroke(PQTheme.goldDeep.opacity(0.35), lineWidth: 1))
+            .accessibilityLabel("Bonus round! Answer correctly to upgrade your new stamp one level, Bronze to Silver, or Silver to Gold.")
     }
 
     private var header: some View {

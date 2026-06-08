@@ -27,6 +27,6 @@ struct TokenBadgeView: View {
         .background(Capsule().fill(PQTheme.paperDeep))
         .overlay(Capsule().stroke(PQTheme.ink.opacity(0.2), lineWidth: 1))
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel(unlimited ? "Hint tokens: unlimited" : "Hint tokens: \(tokens)")
+        .accessibilityLabel(unlimited ? "Hint Coins: unlimited" : "Hint Coins: \(tokens)")
     }
 }
