@@ -33,13 +33,19 @@ struct OnboardingView: View {
                 TabView(selection: $page) {
                     infoPage(tag: 0,
                              title: "Welcome, Explorer!",
-                             body: "A mystery country is hiding on every round. Guess it from its clues and earn a stamp for your passport!") {
+                             body: "A secret country is hiding in every round. Look at the clues, make your guess, and win a stamp for your passport — here's how!") {
                         welcomeArt
                     }
-                    pageCard(1, emoji: "🗺️",
-                             title: "Read the clues",
-                             body: "Each round starts with the country's Mystery Shape. Tap the clue chips — Flag, Fun Fact and Famous Place — to reveal more help.")
-                    coinsCard
+                    infoPage(tag: 1,
+                             title: "1. Look at the clues",
+                             body: "First you'll see the country's shape. Tap a clue chip to reveal its flag, a fun fact or a famous place. Clues are free on Explorer mode; on harder modes each one costs a Hint Coin.") {
+                        cluesPreview
+                    }
+                    infoPage(tag: 2,
+                             title: "2. Make your guess",
+                             body: "Think you know it? Tap the country you think it is — or type its name on the harder modes. Get it right and you stamp it in your passport!") {
+                        guessPreview
+                    }
                     stampsCard
                 }
                 .tabViewStyle(.page(indexDisplayMode: .always))
@@ -150,45 +156,82 @@ struct OnboardingView: View {
         .accessibilityLabel("\(title). \(body)")
     }
 
-    private func pageCard(_ tag: Int, emoji: String, title: String, body: String) -> some View {
-        infoPage(tag: tag, title: title, body: body) {
-            artBubble { Text(emoji).font(.system(size: 88)) }
+    // MARK: Step-1 visual — a mini "Mystery Shape" card above the clue chips,
+    // mirroring what the player actually sees in a round.
+    private var cluesPreview: some View {
+        VStack(spacing: 12) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 18).fill(PQTheme.paperDeep)
+                RoundedRectangle(cornerRadius: 18).stroke(PQTheme.ink.opacity(0.15), lineWidth: 1)
+                Image(systemName: "map.fill")
+                    .font(.system(size: 44))
+                    .foregroundColor(PQTheme.ink.opacity(0.6))
+            }
+            .frame(width: 156, height: 98)
+
+            HStack(spacing: 8) {
+                previewChip("flag.fill", "Flag")
+                previewChip("lightbulb.fill", "Fact")
+                previewChip("photo.fill", "Place")
+            }
         }
+        .accessibilityHidden(true)
     }
 
-    private var coinsCard: some View {
-        VStack(spacing: 20) {
-            Spacer(minLength: 0)
-            artBubble {
-                Image(systemName: "ticket.fill")
-                    .font(.system(size: 72))
-                    .foregroundColor(PQTheme.goldDeep)
-            }
-            Text("Hint Coins")
-                .font(.system(size: 30, weight: .heavy, design: .rounded))
-                .foregroundColor(PQTheme.ink)
-            Text("On the trickier modes, revealing a clue costs a Hint Coin. You earn more coins every time you stamp a country — so explore!\n\nOn Explorer mode, every clue is free.")
-                .font(.title3)
-                .foregroundColor(.secondary)
-                .multilineTextAlignment(.center)
-                .fixedSize(horizontal: false, vertical: true)
-            Spacer(minLength: 0)
+    /// A single locked clue chip, styled like the real ClueView chips.
+    private func previewChip(_ symbol: String, _ label: String) -> some View {
+        VStack(spacing: 3) {
+            Image(systemName: symbol).font(.subheadline)
+            Text(label).font(.caption2.weight(.semibold))
         }
-        .padding(.horizontal, 28)
-        .padding(.bottom, 30)
-        .tag(2)
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel("Hint Coins. On trickier modes, revealing a clue costs a Hint Coin. You earn more by stamping countries. On Explorer mode every clue is free.")
+        .foregroundColor(PQTheme.ink)
+        .frame(width: 58, height: 48)
+        .background(RoundedRectangle(cornerRadius: 12).fill(PQTheme.paper))
+        .overlay(RoundedRectangle(cornerRadius: 12)
+            .strokeBorder(style: StrokeStyle(lineWidth: 1.5, dash: [CGFloat(4), 3]))
+            .foregroundColor(PQTheme.ink.opacity(0.4)))
+    }
+
+    // MARK: Step-2 visual — mock answer options (the right one highlighted) plus
+    // the "type it in" hint, so the child sees how guessing actually works.
+    private var guessPreview: some View {
+        VStack(spacing: 8) {
+            answerPreview("France", picked: true)
+            answerPreview("Spain", picked: false)
+            HStack(spacing: 6) {
+                Image(systemName: "keyboard")
+                Text("…or type it in")
+            }
+            .font(.caption.weight(.medium))
+            .foregroundColor(.secondary)
+            .padding(.top, 2)
+        }
+        .frame(maxWidth: 250)
+        .accessibilityHidden(true)
+    }
+
+    private func answerPreview(_ name: String, picked: Bool) -> some View {
+        HStack {
+            Text(name).font(.headline)
+            Spacer()
+            if picked { Image(systemName: "checkmark.circle.fill") }
+        }
+        .foregroundColor(picked ? .white : PQTheme.ink)
+        .padding(.horizontal, 16).padding(.vertical, 11)
+        .frame(maxWidth: .infinity)
+        .background(RoundedRectangle(cornerRadius: 14).fill(picked ? PQTheme.positive : PQTheme.paper))
+        .overlay(RoundedRectangle(cornerRadius: 14)
+            .stroke(PQTheme.ink.opacity(picked ? 0 : 0.18), lineWidth: 1))
     }
 
     private var stampsCard: some View {
         VStack(spacing: 18) {
             Spacer(minLength: 0)
             artBubble { Text("⭐").font(.system(size: 70)) }
-            Text("Earn shiny stamps")
+            Text("3. Earn shiny stamps")
                 .font(.system(size: 30, weight: .heavy, design: .rounded))
                 .foregroundColor(PQTheme.ink)
-            Text("The fewer clues you need, the shinier your stamp!")
+            Text("The fewer clues you use, the shinier your stamp!")
                 .font(.title3)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
