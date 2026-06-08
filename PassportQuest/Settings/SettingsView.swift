@@ -17,6 +17,7 @@ struct SettingsView: View {
     @State private var showDifficultySheet = false
     @State private var pendingDifficulty: DifficultyMode?
     @State private var showResetConfirm = false
+    @State private var showHowTo = false
 
     /// Notifies the host that difficulty changed (so the game can top up tokens).
     var onDifficultyChanged: () -> Void = {}
@@ -28,11 +29,16 @@ struct SettingsView: View {
                 inputSection
                 inkSection
                 accessibilitySection
+                helpSection
                 progressSection
                 aboutSection
             }
             .navigationTitle("Settings")
             .background(PQTheme.paper.ignoresSafeArea())
+        }
+        .sheet(isPresented: $showHowTo) {
+            OnboardingView(isFirstRun: false, onFinish: { showHowTo = false })
+                .environmentObject(settings)
         }
         // Difficulty picker presented full-screen.
         .sheet(isPresented: $showDifficultySheet) {
@@ -64,6 +70,8 @@ struct SettingsView: View {
             Button("Reset Everything", role: .destructive) {
                 store.resetAll()
                 settings.hasCompletedFirstLaunch = false
+                settings.hasSeenIntro = false
+                settings.hasSeenClueTip = false
             }
         } message: {
             Text("This permanently erases every stamp, badge and hint token, and starts your passport over. This can't be undone.")
@@ -178,6 +186,23 @@ struct SettingsView: View {
             Text("Accessibility")
         } footer: {
             Text("Confetti and splatter effects become calm and still. The system's Reduce Motion setting also turns these off.")
+        }
+    }
+
+    // MARK: Help
+
+    private var helpSection: some View {
+        Section {
+            Button {
+                showHowTo = true
+            } label: {
+                Label("How to Play", systemImage: "questionmark.circle")
+            }
+            .frame(minHeight: PQTheme.minTap)
+        } header: {
+            Text("Help")
+        } footer: {
+            Text("A quick refresher on clues, Hint Coins and stamps.")
         }
     }
 

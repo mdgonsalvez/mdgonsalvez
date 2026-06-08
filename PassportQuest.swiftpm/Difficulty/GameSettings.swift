@@ -71,6 +71,8 @@ final class GameSettings: ObservableObject {
         static let inkColour        = "pq.inkColour"
         static let preferredInput   = "pq.preferredInput"
         static let reduceMotionUser = "pq.reduceMotionPreferred"
+        static let hasSeenIntro     = "pq.hasSeenIntro"
+        static let hasSeenClueTip   = "pq.hasSeenClueTip"
     }
 
     private let defaults: UserDefaults
@@ -102,6 +104,16 @@ final class GameSettings: ObservableObject {
         didSet { defaults.set(prefersReducedMotion, forKey: Keys.reduceMotionUser) }
     }
 
+    /// True once the player has seen the first-run "How to play" intro.
+    @Published var hasSeenIntro: Bool {
+        didSet { defaults.set(hasSeenIntro, forKey: Keys.hasSeenIntro) }
+    }
+
+    /// True once the one-time "tap a clue costs Hint Coins" tip has been shown.
+    @Published var hasSeenClueTip: Bool {
+        didSet { defaults.set(hasSeenClueTip, forKey: Keys.hasSeenClueTip) }
+    }
+
     // MARK: Init
 
     init(defaults: UserDefaults = .standard) {
@@ -131,6 +143,8 @@ final class GameSettings: ObservableObject {
         }
 
         self.prefersReducedMotion = defaults.bool(forKey: Keys.reduceMotionUser)
+        self.hasSeenIntro = defaults.bool(forKey: Keys.hasSeenIntro)
+        self.hasSeenClueTip = defaults.bool(forKey: Keys.hasSeenClueTip)
     }
 
     // MARK: Convenience

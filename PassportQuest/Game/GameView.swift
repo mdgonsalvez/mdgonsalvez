@@ -91,6 +91,11 @@ struct GameView: View {
                              animateRespectingMotion(settings) { _ = game.tapTier(tier) }
                          })
 
+                // One-time tip the first time clues cost Hint Coins (Medium/Hard).
+                if settings.activeDifficulty.hintTokenCost > 0 && !settings.hasSeenClueTip {
+                    clueCoinTip
+                }
+
                 if let nudge = game.wrongNudge {
                     Label(nudge, systemImage: "sparkles")
                         .font(.subheadline.weight(.semibold))
@@ -120,6 +125,37 @@ struct GameView: View {
 
     private func advance() {
         animateRespectingMotion(settings) { game.loadNextCountry() }
+    }
+
+    /// First-time explainer for the Hint Coin cost of revealing clues.
+    private var clueCoinTip: some View {
+        HStack(alignment: .top, spacing: 10) {
+            Image(systemName: "ticket.fill").foregroundColor(PQTheme.goldDeep)
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Tap a clue to reveal it")
+                    .font(.subheadline.weight(.bold)).foregroundColor(PQTheme.ink)
+                Text("On this mode each reveal costs a Hint Coin. Earn more by stamping countries — and on Explorer mode clues are free!")
+                    .font(.caption).foregroundColor(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            Spacer(minLength: 0)
+            Button {
+                animateRespectingMotion(settings) { settings.hasSeenClueTip = true }
+            } label: {
+                Text("Got it!")
+                    .font(.caption.weight(.bold))
+                    .foregroundColor(PQTheme.paper)
+                    .padding(.horizontal, 14)
+                    .frame(minHeight: 44)
+                    .background(Capsule().fill(PQTheme.ink))
+            }
+        }
+        .padding(14)
+        .background(RoundedRectangle(cornerRadius: 14).fill(PQTheme.gold.opacity(0.16)))
+        .overlay(RoundedRectangle(cornerRadius: 14).stroke(PQTheme.goldDeep.opacity(0.4), lineWidth: 1))
+        .transition(.opacity)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Tip: tap a clue to reveal it. On this mode each reveal costs a Hint Coin. Earn more by stamping countries.")
     }
 
     // MARK: Completion cards

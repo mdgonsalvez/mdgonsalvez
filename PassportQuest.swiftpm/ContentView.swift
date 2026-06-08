@@ -19,6 +19,12 @@ struct ContentView: View {
         Group {
             if settings.hasCompletedFirstLaunch {
                 mainTabs
+            } else if !settings.hasSeenIntro {
+                // First launch: teach the game before asking for a difficulty.
+                OnboardingView(isFirstRun: true, onFinish: {
+                    animateRespectingMotion(settings) { settings.hasSeenIntro = true }
+                })
+                .transition(.opacity)
             } else {
                 DifficultySelectionView(isFirstLaunch: true, onConfirm: { mode in
                     store.grantStartingTokensIfNeeded(for: mode)
