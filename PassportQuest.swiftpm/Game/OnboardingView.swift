@@ -31,9 +31,11 @@ struct OnboardingView: View {
             VStack(spacing: 0) {
                 topBar
                 TabView(selection: $page) {
-                    pageCard(0, emoji: "🧳",
+                    infoPage(tag: 0,
                              title: "Welcome, Explorer!",
-                             body: "A mystery country is hiding on every round. Guess it from its clues and earn a stamp for your passport!")
+                             body: "A mystery country is hiding on every round. Guess it from its clues and earn a stamp for your passport!") {
+                        welcomeArt
+                    }
                     pageCard(1, emoji: "🗺️",
                              title: "Read the clues",
                              body: "Each round starts with the country's Mystery Shape. Tap the clue chips — Flag, Fun Fact and Famous Place — to reveal more help.")
@@ -107,10 +109,29 @@ struct OnboardingView: View {
             .overlay(Circle().stroke(PQTheme.sky.opacity(0.35), lineWidth: 2))
     }
 
-    private func pageCard(_ tag: Int, emoji: String, title: String, body: String) -> some View {
+    /// The welcome page's hero art: the globe mascot (the app icon) when it
+    /// ships, otherwise a suitcase emoji in the asset-free Playgrounds build.
+    @ViewBuilder
+    private var welcomeArt: some View {
+        if assetExists("Mascot") {
+            Image("Mascot")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 172, height: 172)
+                .clipShape(Circle())
+                .overlay(Circle().stroke(PQTheme.sky.opacity(0.35), lineWidth: 2))
+                .accessibilityHidden(true)
+        } else {
+            artBubble { Text("🧳").font(.system(size: 88)) }
+        }
+    }
+
+    /// Shared layout for a simple title/body intro page with a piece of art.
+    private func infoPage<Art: View>(tag: Int, title: String, body: String,
+                                     @ViewBuilder art: () -> Art) -> some View {
         VStack(spacing: 20) {
             Spacer(minLength: 0)
-            artBubble { Text(emoji).font(.system(size: 88)) }
+            art()
             Text(title)
                 .font(.system(size: 30, weight: .heavy, design: .rounded))
                 .foregroundColor(PQTheme.ink)
@@ -127,6 +148,12 @@ struct OnboardingView: View {
         .tag(tag)
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(title). \(body)")
+    }
+
+    private func pageCard(_ tag: Int, emoji: String, title: String, body: String) -> some View {
+        infoPage(tag: tag, title: title, body: body) {
+            artBubble { Text(emoji).font(.system(size: 88)) }
+        }
     }
 
     private var coinsCard: some View {
@@ -203,9 +230,4 @@ struct OnboardingView: View {
         settings.hasSeenIntro = true
         onFinish()
     }
-}
-
-#Preview {
-    OnboardingView()
-        .environmentObject(GameSettings())
 }

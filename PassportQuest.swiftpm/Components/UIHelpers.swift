@@ -34,6 +34,14 @@ func motionIsReduced(_ settings: GameSettings) -> Bool {
     UIAccessibility.isReduceMotionEnabled || settings.prefersReducedMotion
 }
 
+/// True when an image asset named `name` is present in the bundle. Lets shared
+/// views use real artwork when it ships (the Xcode app) and fall back to an
+/// emoji in builds that don't bundle the asset (the Swift Playgrounds package).
+@MainActor
+func assetExists(_ name: String) -> Bool {
+    UIImage(named: name) != nil
+}
+
 /// Runs `body` inside `withAnimation(animation)` unless motion is reduced, in
 /// which case it applies the change instantly. Spec rule #7.
 @MainActor
