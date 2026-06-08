@@ -121,7 +121,7 @@ struct ClueView: View {
             .overlay(
                 RoundedRectangle(cornerRadius: 14)
                     .strokeBorder(style: StrokeStyle(lineWidth: 1.5,
-                                                     dash: revealed ? [] : [4, 3]))
+                                                     dash: revealed ? [CGFloat]() : [CGFloat(4), 3]))
                     .foregroundColor(PQTheme.ink.opacity(revealed ? 0.25 : 0.4))
             )
             .foregroundColor(isActive ? .white : PQTheme.ink)

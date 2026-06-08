@@ -101,24 +101,37 @@ def main():
     print("wrote", len(result), "country silhouettes")
 
 def emit(result):
+    # Encode polygons as compact strings parsed at runtime. A giant nested
+    # CGPoint array literal makes the Swift type-checker time out; a dict of
+    # string literals compiles instantly. Format: rings "|", points " ", xy ",".
     L=['//','//  SilhouettePaths.swift','//  PassportQuest','//',
        '//  Generated from public-domain Natural Earth 1:110m boundaries by',
        '//  tools/generate_silhouettes.py. Projected, simplified and normalised',
-       '//  to a 0-1 unit square (north up).','//','','import CoreGraphics','',
-       'enum SilhouettePaths {','',
-       '    @inline(__always) private static func p(_ x: CGFloat, _ y: CGFloat) -> CGPoint {',
-       '        CGPoint(x: x, y: y)','    }','',
-       '    static let polygons: [String: [[CGPoint]]] = [']
+       '//  to a 0-1 unit square (north up). Stored as strings, parsed at runtime.','//','',
+       'import CoreGraphics','','enum SilhouettePaths {','',
+       '    private static let encoded: [String: String] = [']
     for cid in sorted(result):
-        rings=", ".join("["+", ".join(f"p({x},{y})" for x,y in r)+"]" for r in result[cid])
-        L.append(f'        "{cid}": [{rings}],')
+        s="|".join(" ".join(f"{x},{y}" for x,y in r) for r in result[cid])
+        L.append(f'        "{cid}": "{s}",')
     L+=['    ]','',
-        '    static func shape(for countryID: String) -> [[CGPoint]]? { polygons[countryID] }',
-        '    static func points(for countryID: String) -> [[CGPoint]]? { polygons[countryID] }','',
+        '    static func shape(for countryID: String) -> [[CGPoint]]? {',
+        '        guard let raw = encoded[countryID] else { return nil }',
+        '        let rings = raw.split(separator: "|").map { ring -> [CGPoint] in',
+        '            ring.split(separator: " ").compactMap { pair -> CGPoint? in',
+        '                let xy = pair.split(separator: ",")',
+        '                guard xy.count == 2, let x = Double(xy[0]), let y = Double(xy[1]) else { return nil }',
+        '                return CGPoint(x: x, y: y)',
+        '            }',
+        '        }',
+        '        return rings.isEmpty ? nil : rings',
+        '    }','',
+        '    static func points(for countryID: String) -> [[CGPoint]]? { shape(for: countryID) }',
+        '    static func hasShape(_ countryID: String) -> Bool { encoded[countryID] != nil }','',
         '    static func continentPlaceholder() -> [[CGPoint]] {',
-        '        [[p(0.20, 0.30), p(0.40, 0.20), p(0.62, 0.22), p(0.80, 0.32),',
-        '          p(0.84, 0.50), p(0.74, 0.68), p(0.56, 0.78), p(0.36, 0.74),',
-        '          p(0.20, 0.62), p(0.14, 0.46)]]','    }','}','']
+        '        [[CGPoint(x: 0.20, y: 0.30), CGPoint(x: 0.40, y: 0.20), CGPoint(x: 0.62, y: 0.22),',
+        '          CGPoint(x: 0.80, y: 0.32), CGPoint(x: 0.84, y: 0.50), CGPoint(x: 0.74, y: 0.68),',
+        '          CGPoint(x: 0.56, y: 0.78), CGPoint(x: 0.36, y: 0.74), CGPoint(x: 0.20, y: 0.62),',
+        '          CGPoint(x: 0.14, y: 0.46)]]','    }','}','']
     open(OUT,'w').write("\n".join(L))
 
 if __name__=="__main__": main()

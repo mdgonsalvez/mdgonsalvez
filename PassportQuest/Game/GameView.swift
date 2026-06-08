@@ -88,7 +88,7 @@ struct GameView: View {
                          revealCost: game.revealCost,
                          canAffordReveal: game.canAffordReveal,
                          onTapTier: { tier in
-                             animateRespectingMotion(settings) { game.tapTier(tier) }
+                             animateRespectingMotion(settings) { _ = game.tapTier(tier) }
                          })
 
                 if let nudge = game.wrongNudge {

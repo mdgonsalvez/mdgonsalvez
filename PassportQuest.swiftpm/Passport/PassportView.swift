@@ -16,7 +16,7 @@ struct PassportView: View {
     @EnvironmentObject private var store: PlayerProgressStore
     var onOpenSettings: () -> Void = {}
 
-    @State private var pageIndex = 0
+    @State private var page: Continent = .europe
     @State private var selectedCountry: Country?
     @State private var sprintContinent: Continent?
 
@@ -40,15 +40,15 @@ struct PassportView: View {
     var body: some View {
         VStack(spacing: 0) {
             topBar
-            TabView(selection: $pageIndex) {
-                ForEach(Array(continents.enumerated()), id: \.element) { index, continent in
+            TabView(selection: $page) {
+                ForEach(continents) { continent in
                     PassportPage(continent: continent,
                                  unlocked: unlockedSections.contains(continent),
                                  onSelectCountry: { selectedCountry = $0 },
                                  onStartSprint: { sprintContinent = continent })
                         .environmentObject(settings)
                         .environmentObject(store)
-                        .tag(index)
+                        .tag(continent)
                         .padding(.horizontal, 12)
                         .padding(.bottom, 12)
                 }
