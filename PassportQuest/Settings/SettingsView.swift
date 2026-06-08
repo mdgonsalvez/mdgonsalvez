@@ -77,7 +77,7 @@ struct SettingsView: View {
             HStack {
                 Text(settings.activeDifficulty.icon).font(.title)
                 VStack(alignment: .leading) {
-                    Text(settings.activeDifficulty.personaName).font(.headline)
+                    Text(settings.activeDifficulty.personaNameWithLevel).font(.headline)
                     Text(settings.activeDifficulty.tagline)
                         .font(.caption).foregroundColor(.secondary)
                         .fixedSize(horizontal: false, vertical: true)
@@ -89,7 +89,7 @@ struct SettingsView: View {
                     Button {
                         pendingDifficulty = mode
                     } label: {
-                        Label("Switch to \(mode.icon) \(mode.personaName)", systemImage: "arrow.left.arrow.right")
+                        Label("Switch to \(mode.icon) \(mode.personaNameWithLevel)", systemImage: "arrow.left.arrow.right")
                     }
                     .frame(minHeight: PQTheme.minTap)
                 }

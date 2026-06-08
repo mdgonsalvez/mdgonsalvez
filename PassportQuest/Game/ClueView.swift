@@ -59,14 +59,14 @@ struct ClueView: View {
                 Image(systemName: "lightbulb.fill")
                     .font(.largeTitle)
                     .foregroundColor(PQTheme.gold)
-                Text(country.fact(seed: factSeed))
+                Text(country.clueFact(seed: factSeed))
                     .font(.title3.weight(.medium))
                     .multilineTextAlignment(.center)
                     .foregroundColor(PQTheme.ink)
                     .padding(.horizontal, 24)
             }
             .accessibilityElement(children: .combine)
-            .accessibilityLabel("Fun fact: \(country.fact(seed: factSeed))")
+            .accessibilityLabel("Fun fact: \(country.clueFact(seed: factSeed))")
         case .photo:
             landmarkPlaceholder
         }
@@ -86,7 +86,7 @@ struct ClueView: View {
                 Image(systemName: "photo.artframe")
                     .font(.system(size: 48))
                     .foregroundColor(.white)
-                Text(country.landmarkName)
+                Text(Country.redactingOwnName(in: country.landmarkName, country: country))
                     .font(.title2.weight(.bold))
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
@@ -98,7 +98,7 @@ struct ClueView: View {
         }
         .padding(20)
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("Famous place clue: \(country.landmarkName)")
+        .accessibilityLabel("Famous place clue")
     }
 
     private func tierChip(_ tier: ClueTier) -> some View {

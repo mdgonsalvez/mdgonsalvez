@@ -206,4 +206,62 @@ struct Country: Identifiable, Codable, Hashable {
         let index = ((seed % count) + count) % count
         return facts[index]
     }
+
+    /// A fact for use as a *clue*, with the country's own name (and alternate
+    /// names) blanked out so it can't give away the answer. e.g.
+    /// "The UK has no single point…" → "This country has no single point…".
+    func clueFact(seed: Int) -> String {
+        Country.redactingOwnName(in: fact(seed: seed), country: self)
+    }
+
+    /// Blanks out the country's name / alternate names (and "the …" + possessive
+    /// forms) in `text`, replacing them with a neutral phrase. Used so fact and
+    /// landmark clues don't spoil themselves.
+    static func redactingOwnName(in text: String, country: Country) -> String {
+        var result = text
+        // Longest names first so e.g. "United Kingdom" is handled before "Kingdom".
+        let terms = ([country.name] + country.alternateNames)
+            .sorted { $0.count > $1.count }
+        for term in terms {
+            for (needle, replacement) in [
+                ("the " + term + "'s", "this country's"),
+                ("the " + term,        "this country"),
+                (term + "'s",          "this country's"),
+                (term,                 "this country"),
+            ] {
+                result = wholeWordReplace(result, needle: needle, with: replacement)
+            }
+        }
+        // Capitalise if a lowercase replacement landed at the very start.
+        if result.hasPrefix("this country") {
+            result = "This country" + result.dropFirst("this country".count)
+        }
+        return result
+    }
+
+    /// Case-insensitive replace of `needle` with `with`, but only on whole-word
+    /// boundaries so short names (e.g. "UK") don't match inside other words
+    /// (e.g. "Ukraine").
+    private static func wholeWordReplace(_ text: String, needle: String, with replacement: String) -> String {
+        guard !needle.isEmpty else { return text }
+        func isWordChar(_ c: Character) -> Bool { c.isLetter || c.isNumber }
+        var result = ""
+        var remainder = Substring(text)
+        while let range = remainder.range(of: needle, options: [.caseInsensitive]) {
+            let before = range.lowerBound > remainder.startIndex
+                ? remainder[remainder.index(before: range.lowerBound)] : nil
+            let after = range.upperBound < remainder.endIndex
+                ? remainder[range.upperBound] : nil
+            let boundaryOK = !(before.map(isWordChar) ?? false) && !(after.map(isWordChar) ?? false)
+            result += remainder[remainder.startIndex..<range.lowerBound]
+            if boundaryOK {
+                result += replacement
+            } else {
+                result += remainder[range.lowerBound..<range.upperBound]
+            }
+            remainder = remainder[range.upperBound...]
+        }
+        result += remainder
+        return result
+    }
 }

@@ -28,6 +28,18 @@ enum DifficultyMode: String, Codable, CaseIterable, Identifiable {
         }
     }
 
+    /// Plain difficulty word, shown in brackets for clarity.
+    var levelName: String {
+        switch self {
+        case .easy:   return "Easy"
+        case .medium: return "Medium"
+        case .hard:   return "Hard"
+        }
+    }
+
+    /// Persona plus level, e.g. "Explorer (Easy)".
+    var personaNameWithLevel: String { "\(personaName) (\(levelName))" }
+
     /// Emoji icon for the mode.
     var icon: String {
         switch self {

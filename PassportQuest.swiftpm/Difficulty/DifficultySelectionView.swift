@@ -69,7 +69,7 @@ struct DifficultySelectionView: View {
                 Text(mode.icon).font(.system(size: 52))
                 VStack(alignment: .leading, spacing: 6) {
                     HStack(spacing: 8) {
-                        Text(mode.personaName)
+                        Text(mode.personaNameWithLevel)
                             .font(.title2.weight(.heavy))
                             .foregroundColor(PQTheme.ink)
                         if isCurrent {
@@ -100,7 +100,7 @@ struct DifficultySelectionView: View {
             )
             .shadow(color: PQTheme.ink.opacity(0.08), radius: 6, y: 3)
         }
-        .accessibilityLabel("\(mode.personaName) difficulty. \(mode.tagline)\(isCurrent ? " Currently selected." : "")")
+        .accessibilityLabel("\(mode.personaNameWithLevel) difficulty. \(mode.tagline)\(isCurrent ? " Currently selected." : "")")
     }
 
     private func select(_ mode: DifficultyMode) {

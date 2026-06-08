@@ -18,7 +18,7 @@ struct DifficultyBadgeView: View {
             HStack(spacing: 6) {
                 Text(settings.activeDifficulty.icon)
                     .font(.headline)
-                Text(settings.activeDifficulty.personaName)
+                Text(settings.activeDifficulty.personaNameWithLevel)
                     .font(.subheadline.weight(.semibold))
             }
             .padding(.horizontal, 12)
