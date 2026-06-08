@@ -26,9 +26,9 @@ let package = Package(
             teamIdentifier: "",
             displayVersion: "1.0",
             bundleVersion: "1",
-            // Icon/accent intentionally left as Swift Playgrounds defaults to keep
-            // the manifest minimal and maximally compatible. (Add a custom icon
-            // before any App Store submission.)
+            // App icon: the globe-mascot art, supplied via the bundled asset
+            // catalog (Assets.xcassets/AppIcon).
+            appIcon: .asset("AppIcon"),
             supportedDeviceFamilies: [
                 .pad,
                 .phone
@@ -43,7 +43,13 @@ let package = Package(
     targets: [
         .executableTarget(
             name: "AppModule",
-            path: "."
+            path: ".",
+            resources: [
+                // Bundle the icon/mascot art and the App Store privacy manifest
+                // so a Swift Playgrounds (iPad) release carries them.
+                .process("Assets.xcassets"),
+                .copy("PrivacyInfo.xcprivacy")
+            ]
         )
     ]
 )
