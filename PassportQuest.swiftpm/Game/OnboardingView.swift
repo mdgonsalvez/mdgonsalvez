@@ -38,7 +38,7 @@ struct OnboardingView: View {
                     }
                     infoPage(tag: 1,
                              title: "1. Look at the clues",
-                             body: "First you'll see the country's shape. Tap a clue chip to reveal its flag, a fun fact or a famous place. Clues are free on Explorer mode; on harder modes each one costs a Hint Coin.") {
+                             body: "You'll see the country's shape. Tap a clue chip for its flag, a fun fact or a famous place.") {
                         cluesPreview
                     }
                     infoPage(tag: 2,
