@@ -332,7 +332,7 @@ common_tgt_settings = f"""\t\t\t\tASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 \t\t\t\tPRODUCT_BUNDLE_IDENTIFIER = "{BUNDLE_ID}";
 \t\t\t\tPRODUCT_NAME = "$(TARGET_NAME)";
 \t\t\t\tSWIFT_VERSION = 5.0;
-\t\t\t\tTARGETED_DEVICE_FAMILY = "1,2";"""
+\t\t\t\tTARGETED_DEVICE_FAMILY = "2";"""
 
 pbxproj = f"""// !$*UTF8*$!
 {{

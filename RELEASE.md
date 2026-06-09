@@ -52,7 +52,7 @@ Most of this is set in `Package.swift`, but confirm in Swift Playgrounds'
 - **Version / Build:** `1.0` / `1` (`displayVersion` / `bundleVersion` in
   `Package.swift`). Bump **Build** on every upload; bump **Version** per public
   release.
-- **Orientations / Devices:** portrait + landscape, iPad & iPhone (already set).
+- **Orientations / Devices:** portrait + landscape, **iPad-only** (already set).
 
 ## 3. Upload to App Store Connect (from the iPad)
 1. In Swift Playgrounds, open the project and tap the app-name/▾ menu in the top
@@ -110,7 +110,7 @@ Per the version's page:
 ## 7. Required iPad screenshot sizes (App Store Connect)
 - **iPad Pro 12.9″:** 2048 × 2732 (portrait) / 2732 × 2048 (landscape) — mandatory.
 - **iPad 11″ / 10.x″:** 1668 × 2388 (portrait) — recommended.
-- If you keep iPhone enabled: **6.7″** 1290 × 2796 and **6.5″** 1242 × 2688.
+- The app is **iPad-only**, so iPhone screenshots are not required.
 
 ## 8. TestFlight (smoke test on a real device)
 - **TestFlight** tab → enable the processed build for **internal testing** → add

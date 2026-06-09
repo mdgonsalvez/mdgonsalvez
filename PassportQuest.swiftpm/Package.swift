@@ -30,8 +30,7 @@ let package = Package(
             // catalog (Assets.xcassets/AppIcon).
             appIcon: .asset("AppIcon"),
             supportedDeviceFamilies: [
-                .pad,
-                .phone
+                .pad
             ],
             supportedInterfaceOrientations: [
                 .portrait,
