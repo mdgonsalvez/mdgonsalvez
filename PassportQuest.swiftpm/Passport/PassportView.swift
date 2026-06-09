@@ -221,20 +221,30 @@ private struct PassportPage: View {
         let stamped = store.progress.isStamped(country.id)
         let rating = store.progress.rating(for: country.id)
         let hard = store.progress.wasEarnedOnHard(country.id)
+        // The shape is the hero for stamped countries we have boundary data for;
+        // the rest (no authored silhouette) keep the flag as the hero so we never
+        // show a "?" blob for a country the player has already identified.
+        let hasShape = SilhouettePaths.shape(for: country.id) != nil
 
         Button {
             if stamped { onSelectCountry(country) }
         } label: {
             VStack(spacing: 6) {
-                ZStack {
+                ZStack(alignment: .bottomTrailing) {
                     if stamped {
-                        Text(country.emojiFlag).font(.system(size: 40))
+                        if hasShape {
+                            SilhouetteView(country: country, fill: PQTheme.ink)
+                                .frame(height: 52)
+                            flagAccent(country)
+                        } else {
+                            Text(country.emojiFlag).font(.system(size: 40))
+                        }
                     } else {
-                        SilhouetteView(country: country, fill: PQTheme.ink.opacity(0.35))
+                        SilhouetteView(country: country, fill: PQTheme.ink.opacity(0.30))
                             .frame(height: 48)
                     }
                 }
-                .frame(height: 48)
+                .frame(height: 52)
 
                 Text(stamped ? country.name : "? ? ?")
                     .font(.caption.weight(.semibold))
@@ -260,6 +270,17 @@ private struct PassportPage: View {
         .accessibilityLabel(stamped
             ? "\(country.name), stamped, \(rating?.displayName ?? "")\(hard ? ", Cartographer's Seal" : "")"
             : "Unstamped mystery country")
+    }
+
+    /// A small flag chip on the corner of a stamped country's silhouette hero.
+    private func flagAccent(_ country: Country) -> some View {
+        Text(country.emojiFlag)
+            .font(.system(size: 17))
+            .padding(.horizontal, 3).padding(.vertical, 1)
+            .background(RoundedRectangle(cornerRadius: 4).fill(PQTheme.paper))
+            .overlay(RoundedRectangle(cornerRadius: 4).stroke(PQTheme.ink.opacity(0.18), lineWidth: 0.5))
+            .offset(x: 4, y: 4)
+            .accessibilityHidden(true)
     }
 
     @ViewBuilder
