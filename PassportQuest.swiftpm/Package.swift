@@ -25,7 +25,7 @@ let package = Package(
             bundleIdentifier: "com.mdgonsalvez.passportquest",
             teamIdentifier: "",
             displayVersion: "1.0",
-            bundleVersion: "2",
+            bundleVersion: "3",
             // App icon: the globe-mascot art, supplied via the bundled asset
             // catalog (Assets.xcassets/AppIcon).
             appIcon: .asset("AppIcon"),
@@ -34,8 +34,9 @@ let package = Package(
             ],
             supportedInterfaceOrientations: [
                 .portrait,
-                .landscapeRight,
-                .landscapeLeft
+                .portraitUpsideDown,
+                .landscapeLeft,
+                .landscapeRight
             ]
         )
     ],
