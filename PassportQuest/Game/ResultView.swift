@@ -33,20 +33,26 @@ struct ResultView: View {
         .frame(maxWidth: .infinity)
         .background(RoundedRectangle(cornerRadius: 24).fill(PQTheme.paper))
         .overlay(RoundedRectangle(cornerRadius: 24).stroke(PQTheme.ink.opacity(0.12), lineWidth: 1))
+        // Confetti falls across the whole card on a correct answer.
+        .overlay {
+            if isCorrect && !motionIsReduced(settings) {
+                ConfettiView(duration: 2.0)
+                    .allowsHitTesting(false)
+            }
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 24))
+    }
+
+    private var isCorrect: Bool {
+        if case .correct = phase { return true }
+        return false
     }
 
     // MARK: Correct
 
     private func correctContent(rating: StampRating) -> some View {
         VStack(spacing: 16) {
-            ZStack {
-                if !motionIsReduced(settings) {
-                    ConfettiView(duration: 2.0)
-                        .frame(height: 10)
-                        .allowsHitTesting(false)
-                }
-                StampMark(country: country, rating: rating, isHard: earnedOnHard, size: 160)
-            }
+            StampMark(country: country, rating: rating, isHard: earnedOnHard, size: 160)
             Text("Stamped! You're a world traveller!")
                 .font(.title2.weight(.bold))
                 .multilineTextAlignment(.center)

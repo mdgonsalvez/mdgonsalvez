@@ -220,12 +220,7 @@ struct DailyChallengeView: View {
 
     private var completedCard: some View {
         VStack(spacing: 18) {
-            ZStack {
-                if solved && !motionIsReduced(settings) {
-                    ConfettiView(duration: 2.0).frame(height: 8)
-                }
-                waxSeal
-            }
+            waxSeal
             Text(solved ? "Daily stamp earned!" : "Today's daily is done!")
                 .font(.title2.weight(.bold))
                 .foregroundColor(PQTheme.positive)
@@ -243,6 +238,14 @@ struct DailyChallengeView: View {
         .padding(24)
         .frame(maxWidth: .infinity)
         .background(RoundedRectangle(cornerRadius: 24).fill(PQTheme.paperDeep))
+        // Confetti falls across the whole card when the daily is solved.
+        .overlay {
+            if solved && !motionIsReduced(settings) {
+                ConfettiView(duration: 2.0)
+                    .allowsHitTesting(false)
+            }
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 24))
     }
 
     /// The special gold wax seal variant.

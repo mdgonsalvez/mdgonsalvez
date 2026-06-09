@@ -88,7 +88,15 @@ struct ConfettiParticle {
     let color: Color
 
     static func random() -> ConfettiParticle {
-        let palette: [Color] = [.red, .orange, .yellow, .green, .blue, .purple, .pink, PQTheme.gold]
+        // On-brand passport palette: golds lead the celebration, with navy, the
+        // sky accent, the positive green and a warm parchment fleck.
+        let palette: [Color] = [
+            PQTheme.gold, PQTheme.gold, PQTheme.goldDeep,
+            PQTheme.ink,
+            PQTheme.sky,
+            PQTheme.positive,
+            Color(hex: "#E8D9B5")
+        ]
         return ConfettiParticle(
             startX: CGFloat.random(in: 0...1),
             speed: Double.random(in: 0.7...1.3),
