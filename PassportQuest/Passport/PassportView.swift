@@ -37,6 +37,34 @@ struct PassportView: View {
         return unlocked
     }
 
+    /// Whether every country in a continent has been stamped.
+    private func isComplete(_ continent: Continent) -> Bool {
+        let cs = CountryDatabase.countries(in: continent)
+        return !cs.isEmpty && cs.allSatisfy { store.progress.isStamped($0.id) }
+    }
+
+    /// Passport-style page indicator: one dot per continent, filled gold when
+    /// that continent is complete. The current page is enlarged with a white
+    /// ring; tap a dot to flip straight to that continent.
+    private var pageDots: some View {
+        HStack(spacing: 6) {
+            ForEach(continents) { continent in
+                let complete = isComplete(continent)
+                let current = continent == page
+                Circle()
+                    .fill(complete ? PQTheme.gold : Color.white.opacity(0.30))
+                    .frame(width: current ? 12 : 8, height: current ? 12 : 8)
+                    .overlay(Circle().stroke(Color.white, lineWidth: 1.5)
+                        .opacity(current ? 0.9 : 0))
+                    .frame(width: 24, height: 20)
+                    .contentShape(Rectangle())
+                    .onTapGesture { animateRespectingMotion(settings) { page = continent } }
+                    .accessibilityLabel("\(continent.displayName)\(complete ? ", complete" : "")\(current ? ", current page" : "")")
+            }
+        }
+        .accessibilityElement(children: .contain)
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             topBar
@@ -53,8 +81,10 @@ struct PassportView: View {
                         .padding(.bottom, 12)
                 }
             }
-            .tabViewStyle(.page(indexDisplayMode: .always))
-            .indexViewStyle(.page(backgroundDisplayMode: .always))
+            .tabViewStyle(.page(indexDisplayMode: .never))
+
+            pageDots
+                .padding(.vertical, 10)
         }
         .background(passportCover.ignoresSafeArea())
         .sheet(item: $selectedCountry) { country in
@@ -312,7 +342,7 @@ private struct PassportPage: View {
                         y += step
                     }
                 }
-                .stroke(PQTheme.ink.opacity(0.04), lineWidth: 1)
+                .stroke(PQTheme.ink.opacity(0.07), lineWidth: 1)
             }
         }
     }

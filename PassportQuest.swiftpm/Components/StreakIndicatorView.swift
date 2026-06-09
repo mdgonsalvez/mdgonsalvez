@@ -44,6 +44,9 @@ struct HotStreakOverlay: View {
     var body: some View {
         GeometryReader { geo in
             ZStack {
+                // Dimming scrim so the white celebration text pops off the page.
+                Color.black.opacity(animate ? 0.32 : 0)
+                    .ignoresSafeArea()
                 ForEach(blobs.indices, id: \.self) { i in
                     let blob = blobs[i]
                     Circle()
@@ -77,13 +80,5 @@ struct HotStreakOverlay: View {
         }
         .accessibilityElement()
         .accessibilityLabel("Hot streak! You earned bonus Hint Coins.")
-    }
-}
-
-#Preview {
-    ZStack {
-        PQTheme.paper.ignoresSafeArea()
-        HotStreakOverlay(inkColour: .blue)
-            .environmentObject(GameSettings())
     }
 }
