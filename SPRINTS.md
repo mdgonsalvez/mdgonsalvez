@@ -22,33 +22,34 @@ Completed this session.
 
 ---
 
-## 🚀 Sprint 1 — App Store release readiness (v1.0)  — **next**
+## 🚀 Sprint 1 — App Store release readiness (v1.0)
 **Goal:** ship a submittable, compliant build. See `RELEASE.md` for the full
-step-by-step. **These are blockers.**
-- [ ] **App icon** — design + add a 1024×1024 icon (and the size variants Xcode
-      generates). Currently missing → hard rejection. **(M, design)**
-- [ ] **Bundle ID** — set a real reverse-DNS id (placeholder updated to
-      `com.mdgonsalvez.passportquest`; confirm/own it). **(S)**
-- [ ] Apple Developer Program enrolment ($99/yr) + signing team in Xcode. **(S)**
+step-by-step. **Code-side items done; the rest are account/store steps you do at
+upload time (iPad → Swift Playgrounds → App Store Connect).**
+- [x] **App icon** — globe-mascot 1024×1024 icon shipped in both targets
+      (`Assets.xcassets/AppIcon`); reused on onboarding.
+- [x] **Bundle ID** — `com.mdgonsalvez.passportquest` in the package + generator.
+- [ ] Apple Developer Program enrolment ($99/yr) — *at release.*
 - [ ] App Store Connect record: name, subtitle, description, keywords,
-      **Kids 9–11 age band + Kids Category**, privacy policy URL. **(M)**
-- [ ] App Privacy "Data Not Collected" declaration (matches the bundled
-      `PrivacyInfo.xcprivacy`). **(S)**
-- [ ] Screenshots (iPad 12.9" + iPhone 6.7" required sizes). **(M)**
-- [ ] Archive → upload → TestFlight smoke test on a real device → submit. **(M)**
+      **Kids 9–11 age band + Kids Category**, privacy policy URL — *at release.*
+- [x] App Privacy "Data Not Collected" — `PrivacyInfo.xcprivacy` now bundled in
+      the Swift Playgrounds package too.
+- [ ] Screenshots (iPad 12.9" + iPhone 6.7" required sizes) — *at release.*
+- [ ] Upload via Swift Playgrounds → TestFlight smoke test → submit — *at release.*
 
-## 🧭 Sprint 2 — Teaching layer & first-run (UX: highest impact)
+## ✅ Sprint 2 — Teaching layer & first-run (DONE)
 **Goal:** an 8-year-old understands the game with no adult help.
-- [ ] 2–3 card **intro** (or a guided first round) before the difficulty choice. **(M)**
-- [ ] One-time **coachmark** the first time a paid clue chip / token appears. **(S)**
-- [ ] Rename "tokens" → **"Hint Coins"** (concrete, kid-legible); bigger cost
-      label on chips. **(S)**
-- [ ] **Stamp-rating legend** (Bronze/Silver/Gold = how early you guessed). **(S)**
-- [ ] Traveller's Trivia gets a one-line intro the first time it appears. **(S)**
-- [ ] Explain the "Type It In unlocks after 10" rule inline (or drop the gate). **(S)**
-- [ ] Guarantee no token dead-end on Hard (always a free path forward). **(S)**
+- [x] First-run **intro** before the difficulty choice (now a numbered
+      walkthrough with mock clue chips + answer buttons, mascot welcome).
+- [x] One-time **coachmark** the first time a paid clue chip appears.
+- [x] Rename "tokens" → **"Hint Coins"**; bigger coin-styled cost label on chips.
+- [x] **Stamp-rating legend** (Bronze/Silver/Gold) on the onboarding stamps page.
+- [x] Traveller's Trivia **one-line intro** the first time it appears.
+- [x] "Type It In unlocks after 10" rule explained inline in Settings.
+- [x] No Hint-Coin dead-end on Hard (free starting clue + free guessing + the
+      answer auto-reveals after the wrong-answer limit).
 
-## 🎨 Sprint 3 — Visual polish (Designer)
+## 🎨 Sprint 3 — Visual polish (Designer)  — **next**
 **Goal:** make the collection feel premium and unmistakably a passport.
 - [ ] **Make the stamp look stamped**: curved "PASSPORT QUEST" arc, faux date
       line, ink-bleed/tick ring, slight per-country tilt. **(M)**
