@@ -83,3 +83,34 @@ enum PQTheme {
     /// Minimum accessible tap target (spec: 48×48 pt).
     static let minTap: CGFloat = 48
 }
+
+// MARK: - Design-system scales (Sprint 3 #5)
+
+/// Spacing scale (points) — use instead of ad-hoc literals for consistent rhythm.
+enum PQSpace {
+    static let xs: CGFloat = 4
+    static let sm: CGFloat = 8
+    static let md: CGFloat = 12
+    static let lg: CGFloat = 16
+    static let xl: CGFloat = 20
+    static let xxl: CGFloat = 28
+}
+
+/// Corner-radius scale for chips, buttons, cards and full-width panels.
+enum PQRadius {
+    static let chip: CGFloat = 12
+    static let button: CGFloat = 14
+    static let card: CGFloat = 16
+    static let panel: CGFloat = 24
+}
+
+/// Typography. `display` is the rounded, heavy family used for headings; the
+/// stamp's faux date uses a monospaced face; `body` is the system text face.
+enum PQFont {
+    /// Rounded, heavy display face at an explicit size (page/headline titles).
+    static func display(_ size: CGFloat) -> Font { .system(size: size, weight: .heavy, design: .rounded) }
+    static let heading = Font.system(size: 30, weight: .heavy, design: .rounded)
+    static let title = Font.title2.weight(.bold)
+    static let body = Font.body
+    static let caption = Font.caption
+}
