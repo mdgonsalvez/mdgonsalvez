@@ -72,7 +72,7 @@ struct TravellersTriviaView: View {
                 .foregroundColor(PQTheme.ink)
             Text("Answer to upgrade your \(question.country.name) stamp!")
                 .font(.subheadline)
-                .foregroundColor(.secondary)
+                .foregroundColor(PQTheme.inkSoft)
                 .multilineTextAlignment(.center)
         }
     }
@@ -142,7 +142,7 @@ struct TravellersTriviaView: View {
                 .foregroundColor(correct ? PQTheme.positive : PQTheme.ink)
             if !correct {
                 Text("The answer was \(question.correctAnswer).")
-                    .font(.subheadline).foregroundColor(.secondary)
+                    .font(.subheadline).foregroundColor(PQTheme.inkSoft)
             }
             Button { dismiss() } label: {
                 Text("Continue")

@@ -76,7 +76,7 @@ struct DailyChallengeView: View {
                         if let encouragement {
                             Text(encouragement)
                                 .font(.subheadline.weight(.medium))
-                                .foregroundColor(.secondary)
+                                .foregroundColor(PQTheme.inkSoft)
                                 .multilineTextAlignment(.center)
                         }
                     }
@@ -119,7 +119,7 @@ struct DailyChallengeView: View {
                 .foregroundColor(PQTheme.ink)
             Text("A special mystery country, every single day!")
                 .font(.subheadline)
-                .foregroundColor(.secondary)
+                .foregroundColor(PQTheme.inkSoft)
                 .multilineTextAlignment(.center)
         }
     }
@@ -232,7 +232,7 @@ struct DailyChallengeView: View {
                     .font(.headline).foregroundColor(PQTheme.ink)
             }
             Text("Come back tomorrow for a brand-new country!")
-                .font(.subheadline).foregroundColor(.secondary)
+                .font(.subheadline).foregroundColor(PQTheme.inkSoft)
                 .multilineTextAlignment(.center)
         }
         .padding(24)

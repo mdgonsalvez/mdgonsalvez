@@ -135,7 +135,7 @@ struct GameView: View {
                 Text("Tap a clue to reveal it")
                     .font(.subheadline.weight(.bold)).foregroundColor(PQTheme.ink)
                 Text("On this mode each reveal costs a Hint Coin. Earn more by stamping countries — and on Explorer mode clues are free!")
-                    .font(.caption).foregroundColor(.secondary)
+                    .font(.caption).foregroundColor(PQTheme.inkSoft)
                     .fixedSize(horizontal: false, vertical: true)
             }
             Spacer(minLength: 0)
@@ -168,7 +168,7 @@ struct GameView: View {
                 .font(.title.weight(.bold)).foregroundColor(PQTheme.ink)
             Text("You've stamped every country here. A new part of the world is unlocked on your passport!")
                 .multilineTextAlignment(.center)
-                .foregroundColor(.secondary)
+                .foregroundColor(PQTheme.inkSoft)
                 .padding(.horizontal)
             Button { advance() } label: {
                 Text("Continue the Journey")
@@ -190,7 +190,7 @@ struct GameView: View {
                 .font(.largeTitle.weight(.heavy)).foregroundColor(PQTheme.ink)
             Text("You've stamped every country in your passport. What an explorer! Try a harder difficulty for a brand-new challenge.")
                 .multilineTextAlignment(.center)
-                .foregroundColor(.secondary)
+                .foregroundColor(PQTheme.inkSoft)
                 .padding(.horizontal)
             Button(action: onOpenSettings) {
                 Text("Open Settings")

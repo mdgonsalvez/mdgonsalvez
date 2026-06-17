@@ -63,7 +63,7 @@ struct AnswerInputView: View {
     private var typeItIn: some View {
         VStack(spacing: 10) {
             HStack {
-                Image(systemName: "magnifyingglass").foregroundColor(.secondary)
+                Image(systemName: "magnifyingglass").foregroundColor(PQTheme.inkSoft)
                 TextField("Type the country name…", text: $typed)
                     .focused($typingFocused)
                     .autocorrectionDisabled()
@@ -73,7 +73,7 @@ struct AnswerInputView: View {
                     .onSubmit(submitTyped)
                 if !typed.isEmpty {
                     Button { typed = "" } label: {
-                        Image(systemName: "xmark.circle.fill").foregroundColor(.secondary)
+                        Image(systemName: "xmark.circle.fill").foregroundColor(PQTheme.inkSoft)
                     }
                     .accessibilityLabel("Clear text")
                 }

@@ -88,7 +88,7 @@ struct ClueView: View {
                     .padding(.horizontal, 16)
                 Text("Famous Place")
                     .font(.caption.weight(.semibold))
-                    .foregroundColor(.secondary)
+                    .foregroundColor(PQTheme.inkSoft)
             }
             .accessibilityElement(children: .combine)
             .accessibilityLabel("Famous place clue: \(LandmarkArt.phrase(for: country))")

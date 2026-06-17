@@ -186,7 +186,7 @@ private struct PassportPage: View {
                 HStack(spacing: 8) {
                     Text("\(stampedCount) / \(countries.count) stamped")
                         .font(.subheadline.weight(.semibold))
-                        .foregroundColor(.secondary)
+                        .foregroundColor(PQTheme.inkSoft)
                     if mastered {
                         Image(systemName: "rosette").foregroundColor(PQTheme.goldDeep)
                             .accessibilityLabel("Mastery badge earned")
@@ -213,13 +213,13 @@ private struct PassportPage: View {
 
     private var lockedNotice: some View {
         VStack(spacing: 12) {
-            Image(systemName: "lock.fill").font(.largeTitle).foregroundColor(.secondary)
+            Image(systemName: "lock.fill").font(.largeTitle).foregroundColor(PQTheme.inkSoft)
             Text("Locked")
                 .font(.title3.weight(.bold)).foregroundColor(PQTheme.ink)
             Text("Stamp the earlier sections of your journey to unlock \(continent.displayName)!")
                 .font(.subheadline)
                 .multilineTextAlignment(.center)
-                .foregroundColor(.secondary)
+                .foregroundColor(PQTheme.inkSoft)
         }
         .frame(maxWidth: .infinity)
         .padding(.vertical, 40)
@@ -232,7 +232,7 @@ private struct PassportPage: View {
                 Text("\(continent.displayName) Sprint")
                 Spacer()
                 if mastered { Image(systemName: "rosette").foregroundColor(PQTheme.goldDeep) }
-                Image(systemName: "chevron.right").foregroundColor(.secondary)
+                Image(systemName: "chevron.right").foregroundColor(PQTheme.inkSoft)
             }
             .font(.headline)
             .foregroundColor(PQTheme.ink)
@@ -278,7 +278,7 @@ private struct PassportPage: View {
 
                 Text(stamped ? country.name : "? ? ?")
                     .font(.caption.weight(.semibold))
-                    .foregroundColor(stamped ? PQTheme.ink : .secondary)
+                    .foregroundColor(stamped ? PQTheme.ink : PQTheme.inkSoft)
                     .lineLimit(1).minimumScaleFactor(0.65)
 
                 if stamped, let rating {

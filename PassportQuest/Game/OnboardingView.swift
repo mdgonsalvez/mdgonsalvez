@@ -69,7 +69,7 @@ struct OnboardingView: View {
             if isFirstRun {
                 Button("Skip") { finish() }
                     .font(.headline)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(PQTheme.inkSoft)
                     .frame(minHeight: PQTheme.minTap)
             } else {
                 Button {
@@ -77,7 +77,7 @@ struct OnboardingView: View {
                 } label: {
                     Image(systemName: "xmark.circle.fill")
                         .font(.title2)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(PQTheme.inkSoft)
                         .frame(minWidth: PQTheme.minTap, minHeight: PQTheme.minTap)
                 }
                 .accessibilityLabel("Close")
@@ -144,7 +144,7 @@ struct OnboardingView: View {
                 .multilineTextAlignment(.center)
             Text(body)
                 .font(.title3)
-                .foregroundColor(.secondary)
+                .foregroundColor(PQTheme.inkSoft)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
             Spacer(minLength: 0)
@@ -203,7 +203,7 @@ struct OnboardingView: View {
                 Text("…or type it in")
             }
             .font(.caption.weight(.medium))
-            .foregroundColor(.secondary)
+            .foregroundColor(PQTheme.inkSoft)
             .padding(.top, 2)
         }
         .frame(maxWidth: 250)
@@ -233,7 +233,7 @@ struct OnboardingView: View {
                 .foregroundColor(PQTheme.ink)
             Text("The fewer clues you use, the shinier your stamp!")
                 .font(.title3)
-                .foregroundColor(.secondary)
+                .foregroundColor(PQTheme.inkSoft)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
             VStack(spacing: 10) {
@@ -261,7 +261,7 @@ struct OnboardingView: View {
             .frame(width: 76, alignment: .leading)
             Text(name).font(.headline).foregroundColor(PQTheme.ink)
                 .frame(width: 70, alignment: .leading)
-            Text(detail).font(.subheadline).foregroundColor(.secondary)
+            Text(detail).font(.subheadline).foregroundColor(PQTheme.inkSoft)
             Spacer(minLength: 0)
         }
         .padding(.horizontal, 16)

@@ -190,7 +190,7 @@ struct StampCardView: View {
                     .foregroundColor(PQTheme.ink)
                 Text(country.continent.displayName)
                     .font(.headline)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(PQTheme.inkSoft)
             }
 
             HStack(spacing: 8) {
@@ -209,7 +209,7 @@ struct StampCardView: View {
             VStack(alignment: .leading, spacing: 8) {
                 Label("Fun fact", systemImage: "lightbulb.fill")
                     .font(.subheadline.weight(.semibold))
-                    .foregroundColor(.secondary)
+                    .foregroundColor(PQTheme.inkSoft)
                 Text(unlockedFact)
                     .font(.body)
                     .foregroundColor(PQTheme.ink)

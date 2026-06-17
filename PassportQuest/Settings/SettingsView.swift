@@ -88,7 +88,7 @@ struct SettingsView: View {
                 VStack(alignment: .leading) {
                     Text(settings.activeDifficulty.personaNameWithLevel).font(.headline)
                     Text(settings.activeDifficulty.tagline)
-                        .font(.caption).foregroundColor(.secondary)
+                        .font(.caption).foregroundColor(PQTheme.inkSoft)
                         .fixedSize(horizontal: false, vertical: true)
                 }
             }
@@ -132,11 +132,11 @@ struct SettingsView: View {
                     Text(unlocked
                          ? "Type It In is unlocked — nice work!"
                          : "Type It In unlocks after \(settings.activeDifficulty.typeInputUnlockThreshold) correct answers (you have \(store.progress.totalCorrect)). Until then, you'll use Multiple Choice.")
-                        .font(.caption).foregroundColor(.secondary)
+                        .font(.caption).foregroundColor(PQTheme.inkSoft)
                 }
             } else {
                 Label("This mode always uses Type It In.", systemImage: "keyboard")
-                    .foregroundColor(.secondary)
+                    .foregroundColor(PQTheme.inkSoft)
             }
         } header: {
             Text("Answering")
@@ -231,7 +231,7 @@ struct SettingsView: View {
         Section {
             LabeledContent("Countries", value: "\(CountryDatabase.all.count)")
             Text("Passport Quest is made just for explorers — no ads, no links, no sign-ups. Have fun discovering the world! 🌍")
-                .font(.footnote).foregroundColor(.secondary)
+                .font(.footnote).foregroundColor(PQTheme.inkSoft)
         } header: {
             Text("About")
         }

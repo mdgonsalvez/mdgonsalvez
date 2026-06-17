@@ -55,7 +55,7 @@ struct ContinentSprintView: View {
             Text("\(continent.displayName) Sprint")
                 .font(.largeTitle.weight(.heavy)).foregroundColor(PQTheme.ink)
             Text("A fun bonus round! Name \(questionCount) countries before the timer runs out. No pressure — it's just for the badge and bragging rights.")
-                .font(.body).multilineTextAlignment(.center).foregroundColor(.secondary)
+                .font(.body).multilineTextAlignment(.center).foregroundColor(PQTheme.inkSoft)
             Label("\(Int(difficulty.sprintDuration)) seconds", systemImage: "timer")
                 .font(.headline).foregroundColor(PQTheme.ink)
             Button(action: start) {
@@ -66,7 +66,7 @@ struct ContinentSprintView: View {
                     .foregroundColor(.white)
             }
             Button("Maybe later") { dismiss() }
-                .foregroundColor(.secondary)
+                .foregroundColor(PQTheme.inkSoft)
                 .frame(minHeight: PQTheme.minTap)
         }
     }
@@ -84,7 +84,7 @@ struct ContinentSprintView: View {
                         .foregroundColor(timeRemaining < 10 ? .red : PQTheme.ink)
                     Spacer()
                     Text("\(index + 1) / \(questionCount)")
-                        .font(.headline.monospacedDigit()).foregroundColor(.secondary)
+                        .font(.headline.monospacedDigit()).foregroundColor(PQTheme.inkSoft)
                     Spacer()
                     Label("\(score)", systemImage: "star.fill").foregroundColor(PQTheme.goldDeep)
                 }
@@ -160,7 +160,7 @@ struct ContinentSprintView: View {
             Text("Sprint complete!")
                 .font(.largeTitle.weight(.heavy)).foregroundColor(PQTheme.ink)
             Text("You named \(score) out of \(questionCount) countries.")
-                .font(.title3).foregroundColor(.secondary)
+                .font(.title3).foregroundColor(PQTheme.inkSoft)
             if store.progress.masteryBadges.contains(continent) {
                 Label("\(continent.displayName) Mastery Badge earned!", systemImage: "rosette")
                     .font(.headline).foregroundColor(PQTheme.goldDeep)

@@ -33,7 +33,7 @@ struct DifficultySelectionView: View {
                     }
                     Text("You can change this any time in Settings. Switching never removes stamps you've already earned.")
                         .font(.footnote)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(PQTheme.inkSoft)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
                         .padding(.top, 4)
@@ -54,7 +54,7 @@ struct DifficultySelectionView: View {
             Text(isFirstLaunch ? "Choose how you'd like to explore the world!"
                                : "Pick a new way to explore!")
                 .font(.title3)
-                .foregroundColor(.secondary)
+                .foregroundColor(PQTheme.inkSoft)
                 .multilineTextAlignment(.center)
         }
         .padding(.top, 12)
@@ -82,7 +82,7 @@ struct DifficultySelectionView: View {
                     }
                     Text(mode.tagline)
                         .font(.subheadline)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(PQTheme.inkSoft)
                         .fixedSize(horizontal: false, vertical: true)
                 }
                 Spacer(minLength: 0)

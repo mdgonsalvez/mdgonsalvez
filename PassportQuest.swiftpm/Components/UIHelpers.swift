@@ -63,6 +63,10 @@ enum PQTheme {
     static let paperDeep = Color(red: 0.93, green: 0.89, blue: 0.81)
     /// Deep navy used for ink, borders and primary text.
     static let ink = Color(red: 0.11, green: 0.16, blue: 0.30)
+    /// Muted slate-navy for secondary/body text. Replaces the system `.secondary`
+    /// grey, which is too light to read comfortably on the parchment background
+    /// (this hits WCAG-AA on `paper`).
+    static let inkSoft = Color(red: 0.28, green: 0.32, blue: 0.40)
     /// Accent gold for seals and highlights (use as a FILL / on dark ink).
     static let gold = Color(hex: "#F1C40F")
     /// Darker gold for gold-coloured TEXT or ICONS on the light paper, where the

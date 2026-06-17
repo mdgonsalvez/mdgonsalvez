@@ -81,7 +81,7 @@ struct ResultView: View {
                 .foregroundColor(PQTheme.ink)
             Text("The mystery country was")
                 .font(.subheadline)
-                .foregroundColor(.secondary)
+                .foregroundColor(PQTheme.inkSoft)
             Text("\(country.emojiFlag) \(country.name)")
                 .font(.title2.weight(.bold))
                 .foregroundColor(PQTheme.ink)
