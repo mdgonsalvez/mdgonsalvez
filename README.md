@@ -1,7 +1,7 @@
 # Passport Quest 🧳
 
-A children's geography guessing game for ages 8–11, built in SwiftUI for iPad
-(iPad-only), targeting iOS 16+. Players are shown clues about a mystery
+A children's geography guessing game for ages 8–11, built in SwiftUI for
+**iPhone and iPad** (universal), targeting iOS 16+. Players are shown clues about a mystery
 country, guess the answer, and earn a passport stamp when correct — collecting
 stamps for ~195 countries to fill their virtual passport.
 
@@ -69,7 +69,7 @@ tools/
 ## Build & run
 
 This project builds two ways from the **same Swift sources**. The primary,
-supported path is **iPad-only via Swift Playgrounds** — see `RELEASE.md` for the
+supported path is **building on an iPad via Swift Playgrounds** — see `RELEASE.md` for the
 full App Store flow.
 
 ### Primary: iPad + Swift Playgrounds (no Mac)
@@ -85,7 +85,8 @@ full App Store flow.
 
 ### Alternative: Mac + Xcode
 1. Open **`PassportQuest.xcodeproj`** in **Xcode 15+** (iOS **16.0** target).
-2. iPad-only (`TARGETED_DEVICE_FAMILY = 2`). Pick an iPad simulator.
+2. Universal — iPhone & iPad (`TARGETED_DEVICE_FAMILY = 1,2`). Test on both an
+   iPhone and an iPad simulator.
 3. **Signing:** select your team under *Signing & Capabilities*. Bundle id is
    `com.mdgonsalvez.passportquest` (set by `BUNDLE_ID` in the generator).
 4. **Capabilities:** none beyond defaults — no networking, Game Center, push or IAP.
@@ -161,7 +162,8 @@ reused for other iPad sizes:
 - **iPad Pro 12.9″ (6th/2nd gen):** 2048 × 2732 (portrait) / 2732 × 2048
   (landscape).
 - **iPad Pro 11″ / iPad 10.x″:** 1668 × 2388 (portrait) optional but recommended.
-- The app is iPad-only, so no iPhone screenshots are required.
+- The app is universal — provide both **iPhone 6.5″** (1242 × 2688) and
+  **iPad 13″** (2048 × 2732) screenshot sets.
 Capture from the simulator with `⌘S` (File ▸ New Screen Shot) at the device's
 native resolution.
 

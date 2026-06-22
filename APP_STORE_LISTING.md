@@ -91,18 +91,19 @@ Questions? Contact: <your email>.
 ---
 
 ## Screenshots (this page → Previews and Screenshots)
-The app is **iPad-only** (`supportedDeviceFamilies: [.pad]`), so App Store Connect
-requires only the **iPad 13"** set — **no iPhone screenshots needed.** The first 3
-show on the install sheet.
+The app is **universal** (`supportedDeviceFamilies: [.pad, .phone]`), so App Store
+Connect requires **both** an **iPad 13"** set and an **iPhone 6.5"** set. The first
+3 of each show on the install sheet.
 
-Capture on your iPad (run the app in Swift Playgrounds, take a screenshot of each
-key screen): the difficulty pick, a clue/guess screen, a Gold stamp reveal, a
-filled passport page, the Daily.
+Capture each key screen: the difficulty pick, a clue/guess screen, a Gold stamp
+reveal, a filled passport page, the Daily.
 
-Required size:
-- **iPad 13":** 2064 × 2752 or 2048 × 2732 px. (Your 11" iPad captures at
-  1668 × 2420; the screenshots in this session were resized to 2048 × 2732,
-  which is an accepted size.)
+Required sizes:
+- **iPad 13":** 2064 × 2752 or 2048 × 2732 px. (An 11" iPad captures at
+  1668 × 2420; resize to 2048 × 2732, which is accepted.)
+- **iPhone 6.5":** 1242 × 2688 or 1284 × 2778 px. Best captured on a real
+  iPhone — now that the app is on the store, install it on an iPhone and take
+  native screenshots (sharper than resizing iPad shots).
 
 ---
 
